@@ -9,8 +9,11 @@ public class Map {
     }
     
     
-    public int get_levelData(int x, int y) {
+    public int get_levelData_index(int x, int y) {
 	    return levelData[y][x];
    }
 
+    public int[][] get_levelData() {
+    	return levelData;
+    }
 }

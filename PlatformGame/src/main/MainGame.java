@@ -13,7 +13,7 @@ public class MainGame implements Runnable{
 	MapManager map;
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
-	public final static float SCALE = 1f;
+	public final static float SCALE = 1.5f;
 	public final static int TOTAL_TILES_IN_WIDTH = 26;
 	public final static int TOTAL_TILES_IN_HEIGHT = 14;
 	public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
@@ -36,15 +36,20 @@ public class MainGame implements Runnable{
 		
 	}
 	
+	public void warning() {
+		
+	}
+	
 	public void initializePlayer() {
 		map = new MapManager(this);
-		player = new Player(100,100, (int) (64*SCALE), (int) (40*SCALE) );
+		player = new Player(100,433, (int) (64*SCALE), (int) (40*SCALE) );
 		  
 	}
 	
 	public void render(Graphics g) {
 		map.get_Map_Level(g);
 		player.renderPlayer(g);
+		player.drawHitBox(g);
 	}
 	
    public Player getPlayer() {   
