@@ -12,9 +12,10 @@ import KeyBoardInput.SwitchAction;
 public class Player extends Entity {
 	
 	
-	public int dirNumber;
 	public int state_ani;
 	public int frame1;
+
+
 	
 	private int f;
     private BufferedImage img;
@@ -24,8 +25,8 @@ public class Player extends Entity {
     
 
 
-	public Player(float x, float y) {
-		super(x, y);
+	public Player(float x, float y, float width, float height) {
+		super(x, y, width, height);
 		loadAni();
 		
 	}
@@ -33,34 +34,13 @@ public class Player extends Entity {
 		if(i >= frame1) i = 0;
 		f = i++;
 	}
-	
 
 	
 	private void updateState() {
 
-		if(SwitchAction.action >= 1) {
-			switch(dirNumber) {
-			case 0:  up = true;
-			break;
+		if(SwitchAction.action < 1) state_ani = 0;
 			
-			case 1:  down = true;
-			break;
-			
-			case 2:  left = true;
-			break;
-			
-			case 3:  right = true;
-			break;
-			
-			case 4:  attack = true;
-			break;
-			}
-		}else {
-			state_ani = 0;
-		}
-		
-		
-		
+
 		if (left && !right) {
 			x -= 2;
 			state_ani = 1;
@@ -77,6 +57,7 @@ public class Player extends Entity {
 			state_ani = 1;
 		}
 		
+		if(attack) state_ani = 6;  
 		
 	}
 
@@ -85,7 +66,7 @@ public class Player extends Entity {
 	
 	public void renderPlayer(Graphics g) {
 		updateState();
-		g.drawImage(Animation[state_ani][f],(int) x, (int) y, 128, 80, null);
+		g.drawImage(Animation[state_ani][f],(int) x, (int) y, (int)width, (int)height, null);
 	}
 	
 	

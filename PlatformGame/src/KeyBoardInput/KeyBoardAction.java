@@ -9,7 +9,7 @@ import main.Game_JPanel;
 public class KeyBoardAction implements KeyListener{
 	
     private Game_JPanel jpanel;
-	
+	private boolean isAttacking;
     
     
 	public KeyBoardAction(Game_JPanel panel) {
@@ -30,43 +30,49 @@ public class KeyBoardAction implements KeyListener{
 	        switch (keyCode) {
 	            case KeyEvent.VK_UP:
 	   
-	            	SwitchAction.action = 1;
+	            	
+	            	
 	                jpanel.getGame().getPlayer().state_ani = 1;
-	                jpanel.getGame().getPlayer().dirNumber = 0;
-	                
+	                jpanel.getGame().getPlayer().setUp(true);
+	                SwitchAction.action = 1;
 	                
 	                break;
 	            case KeyEvent.VK_DOWN:
 	            	
-	            	SwitchAction.action = 1;
+	            	
+	            	
 	                jpanel.getGame().getPlayer().state_ani = 1;
-	                jpanel.getGame().getPlayer().dirNumber = 1;
-	                
+	                jpanel.getGame().getPlayer().setDown(true);
+	                SwitchAction.action = 1;
 	            	
 	                break;
 	            case KeyEvent.VK_LEFT:
 	            	
-	            	SwitchAction.action = 1;;
+	            	
+	            	
 	                jpanel.getGame().getPlayer().state_ani = 1;
-	                jpanel.getGame().getPlayer().dirNumber = 2;
-	                
+	                jpanel.getGame().getPlayer().setLeft(true);
+	                SwitchAction.action = 1;
 	            	
 	                break;
 	            case KeyEvent.VK_RIGHT:
 	            	
-	            	SwitchAction.action = 1;
-	                jpanel.getGame().getPlayer().state_ani = 1;
-	                jpanel.getGame().getPlayer().dirNumber = 3;
 	            	
+	                jpanel.getGame().getPlayer().state_ani = 1;
+	                jpanel.getGame().getPlayer().setRight(true);
+	                SwitchAction.action = 1;
 	            	
 	                break;
 	                
 	            case 90:
-	            	SwitchAction.action = 2;
+	            	SwitchAction.action = 0;
+	            	
+	            	isAttacking = true;
 	                jpanel.getGame().getPlayer().state_ani = 6;
-	                jpanel.getGame().getPlayer().dirNumber = 4;
-	                
+	                jpanel.getGame().getPlayer().setAttack(true);
+	                SwitchAction.attack = 2;
 	            	break;
+
 	 
 	        }
 		
@@ -78,29 +84,40 @@ public class KeyBoardAction implements KeyListener{
 	        
 	        switch (keyCode) {
 	            case KeyEvent.VK_UP:
-	            	SwitchAction.action = 0;
-	            	jpanel.getGame().getPlayer().setUp(false);
 
+	            	if(!isAttacking) SwitchAction.attack = 0;
+	            	jpanel.getGame().getPlayer().setUp(false);
+	            	SwitchAction.action = 0;
+	            	
 	                break;
 	            case KeyEvent.VK_DOWN:
-	            	SwitchAction.action = 0;
+	            	
+	            	if(!isAttacking) SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setDown(false);
+	            	SwitchAction.action = 0;
 	            	
 	                break;
 	            case KeyEvent.VK_LEFT:
-	            	SwitchAction.action = 0;
+	            	
+	            	if(!isAttacking) SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setLeft(false);
+	            	SwitchAction.action = 0;
 	            	
 	                break;
 	            case KeyEvent.VK_RIGHT:
-	            	SwitchAction.action = 0;
+
+	            	if(!isAttacking) SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setRight(false);
+	            	SwitchAction.action = 0;
+	            	
 	                break;
 	            case 90:
-	            
-	            	SwitchAction.action = 0;
+	            	
+	            	isAttacking = false;
 	            	jpanel.getGame().getPlayer().setAttack(false);
+	            	
 	                break;
+
 	        }   
 		
 	}

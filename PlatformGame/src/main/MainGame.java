@@ -4,15 +4,26 @@ import java.awt.Graphics;
 
 import Character.Player;
 import KeyBoardInput.SwitchAction;
+import LoadMap.MapManager;
 
 public class MainGame implements Runnable{
 	Game_JFrame_Window window_game;
 	Game_JPanel panel_game;
 	Player player ;
+	MapManager map;
+	
+	public final static int TILES_DEFAULT_SIZE = 32;
+	public final static float SCALE = 1f;
+	public final static int TOTAL_TILES_IN_WIDTH = 26;
+	public final static int TOTAL_TILES_IN_HEIGHT = 14;
+	public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+	public final static int GAME_WIDTH = TILES_SIZE * TOTAL_TILES_IN_WIDTH;
+	public final static int GAME_HEIGHT = TILES_SIZE * TOTAL_TILES_IN_HEIGHT;
 	
 	private Thread thread;
 	private final int FPS = 120;
 	private int takeAction;
+	public int isJumping;
 	int i = 0;
 	
 	public MainGame() {
@@ -26,11 +37,13 @@ public class MainGame implements Runnable{
 	}
 	
 	public void initializePlayer() {
-		player = new Player(100,100);
-		
+		map = new MapManager(this);
+		player = new Player(100,100, (int) (64*SCALE), (int) (40*SCALE) );
+		  
 	}
 	
 	public void render(Graphics g) {
+		map.get_Map_Level(g);
 		player.renderPlayer(g);
 	}
 	
@@ -40,10 +53,11 @@ public class MainGame implements Runnable{
 
    public void update() {
 	   takeAction = SwitchAction.action;
-	   player.frame1 = (SwitchAction.GetFramesAction(takeAction) - 1);
+	   player.frame1 = (SwitchAction.GetFramesAction(takeAction) );
 	   player.updatePlayer();
 	   
    }
+   
 	
 	public void GameRepaintThread() {
 		thread = new Thread(this);
@@ -83,7 +97,8 @@ public class MainGame implements Runnable{
 			}
 			
 			nowframe = System.currentTimeMillis();
-			if(nowframe - loadframe == 150) {
+
+			if(nowframe - loadframe >= 150) {
 			    update();
 				loadframe = System.currentTimeMillis();
 
