@@ -10,15 +10,13 @@ public class SwitchAction {
     	
     	if(attack > 0) return 3;
     		
-    	      switch(action) {
-    	         case STANDING:
-    		       return 4;
-    	         case RUNING:
-    		       return 5;
-    	        }
+    	switch(action) {
+    	   case STANDING:
+    		   return 4;
+    	   case RUNING:
+    		   return 5;
+    	  }return 3;
 
-    	
-    	return 3;
     }
     
     

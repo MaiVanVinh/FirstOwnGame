@@ -10,10 +10,10 @@ public class KeyBoardAction implements KeyListener{
 	
     private Game_JPanel jpanel;
 	private boolean isAttacking;
-    
-    
+     
 	public KeyBoardAction(Game_JPanel panel) {
           this.jpanel = panel;
+
 	}
 
 	@Override
@@ -57,6 +57,7 @@ public class KeyBoardAction implements KeyListener{
 	            	
 	    		case KeyEvent.VK_SPACE:
 	    			jpanel.getGame().getPlayer().setJump(true);
+	    			jpanel.getGame().getPlayer().doubleJump++;
 	    			break;
 
 	 

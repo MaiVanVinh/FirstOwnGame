@@ -1,15 +1,23 @@
 package main;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import Character.Crab_Spawn;
 import Character.Player;
+import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
 import LoadMap.MapManager;
 
 public class MainGame implements Runnable{
+	
 	Game_JFrame_Window window_game;
 	Game_JPanel panel_game;
 	Player player ;
+	Crab_Spawn crab;
 	MapManager map;
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -20,18 +28,22 @@ public class MainGame implements Runnable{
 	public final static int GAME_WIDTH = TILES_SIZE * TOTAL_TILES_IN_WIDTH;
 	public final static int GAME_HEIGHT = TILES_SIZE * TOTAL_TILES_IN_HEIGHT;
 	
+	private Sound sound;
 	private Thread thread;
 	private final int FPS = 120;
 	private int takeAction;
 	public int isJumping;
 	int i = 0;
+	int soundIndex = 2;
 	
 	public MainGame() {
-		initializePlayer();
 		
+        sound = new Sound();
+        getSound(soundIndex);
+        
+		initializePlayer();
 		panel_game = new Game_JPanel(this);
 		window_game = new Game_JFrame_Window(panel_game);
-		
 		GameRepaintThread();
 		
 	}
@@ -42,14 +54,20 @@ public class MainGame implements Runnable{
 	
 	public void initializePlayer() {
 		map = new MapManager(this);
-		player = new Player(100,433, (int) (64*SCALE), (int) (40*SCALE) );
+		player = new Player(50,433, (int) (64*SCALE), (int) (40*SCALE) );
+		crab = new Crab_Spawn();
 		  
 	}
 	
 	public void render(Graphics g) {
+		map.player_xPos = player.xPos;
 		map.get_Map_Level(g);
+		
+		player.updateBigMap = map.xLvlOffset;
 		player.renderPlayer(g);
-		player.drawHitBox(g);
+		
+		crab.Offset =  map.xLvlOffset;
+		crab.renderCrabs(g);
 	}
 	
    public Player getPlayer() {   
@@ -59,6 +77,7 @@ public class MainGame implements Runnable{
    public void update() {
 	   takeAction = SwitchAction.action;
 	   player.frame1 = (SwitchAction.GetFramesAction(takeAction) );
+	   crab.updateCrabState();
 	   player.updatePlayer();
 	   
    }
@@ -80,6 +99,7 @@ public class MainGame implements Runnable{
 		long loadframe = System.currentTimeMillis();
 		long nowframe = System.currentTimeMillis();
 		
+		
 		//int frames = 0;
 		long lastCheck = System.currentTimeMillis();
 		
@@ -93,9 +113,11 @@ public class MainGame implements Runnable{
 				lastTime = now;
 				//frames++;
 			}
+
+		
 			
-			
-			if (System.currentTimeMillis() - lastCheck >= 1000) {
+			if (System.currentTimeMillis() - lastCheck >= 5000) {
+				if(!sound.checkActive()) getSound(soundIndex);
 				lastCheck = System.currentTimeMillis();
 				//System.out.println("FPS: " + frames);
 				//frames = 0;
@@ -114,6 +136,16 @@ public class MainGame implements Runnable{
 			
 		}
 		
+	}
+	
+	
+	private void getSound(int i)  {
+		try {
+			sound.getSound(i ,-10);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
     
 	

@@ -17,7 +17,7 @@ public class CheckHitBox {
 	
 	
 	public static boolean IsCollided(float x, float y,int[][] levelData) {
-		if(x < 0 || x >= MainGame.GAME_WIDTH) return true;
+		if(x < 0 || x >= levelData[0].length*MainGame.TILES_SIZE) return true;
 		if(y < 0 || y >= MainGame.GAME_HEIGHT) return true;
 		
 		
@@ -27,8 +27,8 @@ public class CheckHitBox {
         
 
 		
-		int value = levelData[(int) yIndex][(int) xIndex];      
-        
+		int value = levelData[(int) yIndex][(int) xIndex];   
+		//System.out.println(levelData[1].length);
 		if (value >= 48 || value < 0 || value != 11) 
 			return true;
 
@@ -46,6 +46,18 @@ public class CheckHitBox {
 		return true;
 
 	}
+	
+	public static boolean CheckEgde(float x, float y,float width,float height, int[][] levelData) {
+        return (IsCollided(x + 5, y + height + 10, levelData));
+	}
+	
+
+	
+	
+	
+	
+
+
 	
 	
 }

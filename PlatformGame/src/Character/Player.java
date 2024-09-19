@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
 import LoadMap.MapManager;
 import main.MainGame;
@@ -13,6 +17,8 @@ public class Player extends Entity {
 	
 	public int state_ani;
 	public int frame1;
+	public float xPos;
+	public int updateBigMap;
 
 	private int f;
 
@@ -24,13 +30,17 @@ public class Player extends Entity {
 
 	private float airSpeed = 0f;
 	private float gravity = 0.09f * MainGame.SCALE;
-	private float jumpSpeed = -3.5f * MainGame.SCALE;
+	private float jumpSpeed = -4.5f * MainGame.SCALE;
 	private boolean inAir = false;
-
-
+	public int doubleJump = 0;
+	
+	private boolean acJumpSound = true;
+    private Sound sound;
+    
 	public Player(float x, float y, float width, float height) {
 		super(x, y, width, height);
 		loadAni();
+		sound = new Sound();
 		levelData = MapManager.levelData_Player;
 	}
 	
@@ -42,21 +52,25 @@ public class Player extends Entity {
 	
 	private void updateState() {
 		createHitbox(x+35, y+7, width-70, height-22);
-		//createHitbox(x+25, y+5, width-50, height-15);
-		
-		if(SwitchAction.action < 1) state_ani = 0;
-			
-		if (jump) jump();
-		
 
 		
+		if(SwitchAction.action < 1) state_ani = 0;
+		
+		if (jump) {
+			if(acJumpSound) { getSound();}  
+			acJumpSound = false;
+			jump(); 
+			
+		}
 	
+
+
 		
 		if (left && !right) {
-			x -= 2.2;
+			x -= 5;
 			state_ani = 1;
 		} else if (right && !left) {
-			x += 2.2;
+			x += 5;
 			state_ani = 1;
 		}
 	
@@ -64,41 +78,45 @@ public class Player extends Entity {
 		
 		if (!inAir)
 			if (!CheckHitBox.IsEntityOnFloor(hitbox, levelData))
-				inAir = true;
+				inAir = true; 
 
 		if (inAir) {
 			if (CheckHitBox.CanMoveHere(hitbox.x, hitbox.y + airSpeed, width-70, height-22, levelData)) {
 				y += airSpeed;
 				airSpeed += gravity;
-				
+				acJumpSound = false;
+			
 			}else {
 				airSpeed += gravity + 0.12;
-				if (airSpeed > 0) inAir = false; airSpeed = 0;
+				if (airSpeed > 0) inAir = false; airSpeed = 0; acJumpSound = true;
 			}
 		}
 		
-
-	
+		
 	
 		if(!CheckHitBox.CanMoveHere(x+35, y+7, width-70, height-22,levelData)) {
-			if(right) x -= 2.2;
-			if(left) x += 2.2;
+			if(right) x -= 5;
+			if(left) x += 5;
 		}
 		
 	}
 
 
 	
-	private void jump() {
-		if (inAir)
-			return;
+	private void jump() {	
+		 if (inAir) 
+			 return;
 		inAir = true;
 		airSpeed = jumpSpeed;
+
 	}
 
 	public void renderPlayer(Graphics g) {
 		updateState();
-		g.drawImage(Animation[state_ani][f],(int) (x), (int) (y), (int)width, (int)height, null);
+		xPos = x + 35;
+		hitbox.x += updateBigMap;
+		
+		g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
 	}
 	
 	
@@ -129,7 +147,16 @@ public class Player extends Entity {
 
 	}
 	
-
+    
+	private void getSound()  {
+		try {
+			sound.getSound(0, -40);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void setRight(boolean right2) {
 		this.right = right2;
 	}
