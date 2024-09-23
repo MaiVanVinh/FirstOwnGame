@@ -24,8 +24,8 @@ public class MapManager {
 
 	 public int xLvlOffset;
 	 private int diff;
-	 private int leftBorder = (int) (0.4   * MainGame.GAME_WIDTH);
-	 private int rightBorder = (int) (0.6 * MainGame.GAME_WIDTH);
+	 private int leftBorder = (int) (0.3   * MainGame.GAME_WIDTH);
+	 private int rightBorder = (int) (0.7 * MainGame.GAME_WIDTH);
 	 private int lvlTilesWide = Load.GetMapLevelData()[0].length;
 	 private int maxTilesOffset = lvlTilesWide - MainGame.TOTAL_TILES_IN_WIDTH;
 	 private int maxLvlOffsetX = maxTilesOffset * MainGame.TILES_SIZE;
@@ -85,6 +85,8 @@ public class MapManager {
 		
 		
 	}
+	
+	
 	
 	public void get_Map_Level(Graphics g) {
 		checkMoveLeftAndRight();

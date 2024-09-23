@@ -28,10 +28,24 @@ public class KeyBoardAction implements KeyListener{
 		 int keyCode = e.getKeyCode();
 	        
 	        switch (keyCode) {
-
+	        
+	        case KeyEvent.VK_UP:
+	     	   
+                jpanel.getGame().getPlayer().state_ani = 1;
+                jpanel.getGame().getPlayer().setUp(true);
+                SwitchAction.action = 1;
+                
+                break;
+            case KeyEvent.VK_DOWN:
+            		
+                jpanel.getGame().getPlayer().state_ani = 1;
+                jpanel.getGame().getPlayer().setDown(true);
+                SwitchAction.action = 1;
+                break;
+                
 	            case KeyEvent.VK_LEFT:
 
-	                jpanel.getGame().getPlayer().state_ani = 1;
+	                jpanel.getGame().getPlayer().state_ani = 2;
 	                jpanel.getGame().getPlayer().setLeft(true);
 	                SwitchAction.action = 1;
 	            	
@@ -70,6 +84,23 @@ public class KeyBoardAction implements KeyListener{
 		 int keyCode = e.getKeyCode();
 	        
 	        switch (keyCode) {
+	        
+            case KeyEvent.VK_UP:
+
+            	if(!isAttacking) SwitchAction.attack = 0;
+            	jpanel.getGame().getPlayer().setUp(false);
+            	SwitchAction.action = 0;
+            	
+                break;
+                
+            case KeyEvent.VK_DOWN:
+            	
+            	if(!isAttacking) SwitchAction.attack = 0;
+            	jpanel.getGame().getPlayer().setDown(false);
+            	SwitchAction.action = 0;
+            	
+                break;
+                
 	            case KeyEvent.VK_LEFT:
 	            	
 	            	if(!isAttacking) SwitchAction.attack = 0;

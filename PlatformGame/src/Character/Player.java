@@ -19,23 +19,29 @@ public class Player extends Entity {
 	public int frame1;
 	public float xPos;
 	public int updateBigMap;
+	public static int PlayerX_RightPos;
+	public static int PlayerX_LeftPos;
+	public static int PlayerY_UpPos;
+	public static boolean PlayerGetHit;
+	
 
 	private int f;
 
 	private int[][] levelData;
     private BufferedImage img;
     private BufferedImage[][] Animation;
-    private boolean left, right, attack, jump;
+    private boolean left, right,up,down, attack, jump;
     private int i = 0;
 
 	private float airSpeed = 0f;
 	private float gravity = 0.09f * MainGame.SCALE;
-	private float jumpSpeed = -4.5f * MainGame.SCALE;
+	private float jumpSpeed = -3.4f * MainGame.SCALE;
 	private boolean inAir = false;
 	public int doubleJump = 0;
 	
 	private boolean acJumpSound = true;
     private Sound sound;
+
     
 	public Player(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -66,13 +72,43 @@ public class Player extends Entity {
 
 
 		
+//		if (left && !right && !PlayerGetHit) {
+//			x -= 2.2;
+//			state_ani = 1;
+//		} else if (right && !left && !PlayerGetHit) {
+//			x += 2.2;
+//			state_ani = 1;
+//		}
+		
+
+
+    	
 		if (left && !right) {
-			x -= 5;
-			state_ani = 1;
+			x -= 2.2;
+			state_ani = 2;
 		} else if (right && !left) {
-			x += 5;
+			x += 2.2;
 			state_ani = 1;
 		}
+		
+    
+	  
+
+
+ 
+  
+  
+
+		if (up && !down) {
+			y -= 2.2;
+			state_ani = 1;
+		} else if (down && !up) {
+			y += 2.2;
+			state_ani = 1;
+		}
+		
+	
+
 	
 		if(attack) state_ani = 6;  
 		
@@ -93,11 +129,14 @@ public class Player extends Entity {
 		}
 		
 		
+
 	
 		if(!CheckHitBox.CanMoveHere(x+35, y+7, width-70, height-22,levelData)) {
-			if(right) x -= 5;
-			if(left) x += 5;
+			if(right) x -= 2.2;
+			if(left) x += 2.2;
 		}
+		
+
 		
 	}
 
@@ -116,8 +155,24 @@ public class Player extends Entity {
 		xPos = x + 35;
 		hitbox.x += updateBigMap;
 		
-		g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
+		
+		PlayerX_RightPos = (int) (x + 35 - updateBigMap);
+		
+		PlayerX_LeftPos = (int) (x - updateBigMap);
+		
+		PlayerY_UpPos = (int) (y - 3);
+		
+		if(PlayerGetHit) 
+			y -=3;
+
+		
+        g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
+        PlayerGetHit  = false;
+
 	}
+	
+	
+
 	
 	
 
@@ -177,7 +232,14 @@ public class Player extends Entity {
 	
 
 
+	public void setUp(boolean up2) {
+		this.up = up2;
+	}
 	
+	public void setDown(boolean down2) {
+		this.down = down2;
+	}
+
 	
 	
 	

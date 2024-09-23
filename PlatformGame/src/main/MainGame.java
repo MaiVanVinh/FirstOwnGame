@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+
 import Character.Crab_Spawn;
 import Character.Player;
 import KeyBoardInput.Sound;
@@ -19,6 +20,7 @@ public class MainGame implements Runnable{
 	Player player ;
 	Crab_Spawn crab;
 	MapManager map;
+	
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 1.5f;
@@ -41,6 +43,7 @@ public class MainGame implements Runnable{
         sound = new Sound();
         getSound(soundIndex);
         
+        
 		initializePlayer();
 		panel_game = new Game_JPanel(this);
 		window_game = new Game_JFrame_Window(panel_game);
@@ -54,12 +57,13 @@ public class MainGame implements Runnable{
 	
 	public void initializePlayer() {
 		map = new MapManager(this);
-		player = new Player(50,433, (int) (64*SCALE), (int) (40*SCALE) );
+		player = new Player(20,100, (int) (64*SCALE), (int) (40*SCALE) );
 		crab = new Crab_Spawn();
 		  
 	}
 	
 	public void render(Graphics g) {
+		
 		map.player_xPos = player.xPos;
 		map.get_Map_Level(g);
 		
@@ -68,6 +72,8 @@ public class MainGame implements Runnable{
 		
 		crab.Offset =  map.xLvlOffset;
 		crab.renderCrabs(g);
+		
+
 	}
 	
    public Player getPlayer() {   
@@ -79,6 +85,7 @@ public class MainGame implements Runnable{
 	   player.frame1 = (SwitchAction.GetFramesAction(takeAction) );
 	   crab.updateCrabState();
 	   player.updatePlayer();
+
 	   
    }
    
@@ -124,7 +131,6 @@ public class MainGame implements Runnable{
 			}
 			
 			nowframe = System.currentTimeMillis();
-
 			if(nowframe - loadframe >= 150) {
 			    update();
 				loadframe = System.currentTimeMillis();

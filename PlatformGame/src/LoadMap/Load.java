@@ -21,6 +21,9 @@ public class Load {
 	public static final String MAP_LEVEL_FOUR   = "Map4.png";
 	public static final String MAP_LEVEL_FIVE   = "Map5.png";
 	public static final String MAP_LEVEL_TEST   = "TestMap.png";
+	public static final String MAP_LEVEL_TEST2  = "TestMap2.png";
+	public static final String MAP_LEVEL_TEST3  = "TestMap3.png";
+	public static final String MAP_LEVEL_TEST4  = "TestMap4.png";
 	public static final String TILE_2D = "2D Tiles.png";
 	
 	
@@ -52,7 +55,7 @@ public class Load {
 	
 	public static ArrayList<Crab_Enemy> GetCrabs(){
 		ArrayList<Crab_Enemy> list = new ArrayList<>();	
-		BufferedImage img = LoadImage(MAP_LEVEL_TEST);
+		BufferedImage img = LoadImage(MAP_LEVEL_FOUR);
 		
 		for (int j = 0; j < img.getHeight(); j++) {
 			for (int i = 0; i < img.getWidth(); i++) {
@@ -70,7 +73,7 @@ public class Load {
 	
 	public static int[][] GetMapLevelData() {
 		
-		BufferedImage img = LoadImage(MAP_LEVEL_TEST );
+		BufferedImage img = LoadImage(MAP_LEVEL_FOUR);
 		int[][] levelData = new int[img.getHeight()][img.getWidth()];
 
         

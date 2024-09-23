@@ -41,13 +41,14 @@ public class Crab_Spawn {
 	}
 	
 	public void updateCrabState(){
-		if(i > 6) i = 0;
+		if(i > 5) i = 0;
 		frame = i++;
 	}
     
 	public void update(int [][] levelData) {
-		for (Crab_Enemy crab : numberOfCrabs)
+		for (Crab_Enemy crab : numberOfCrabs) {
 			crab.checkHitBox_withEnv(levelData);
+		}	
 	}
 
 	
@@ -55,7 +56,7 @@ public class Crab_Spawn {
 		Crab_Enemy.Offset = Offset;
 		update(MapManager.levelData_Player);
 		for(Crab_Enemy crab : numberOfCrabs) {
-			g.drawImage(Animation[0][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+			g.drawImage(Animation[1][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
 			g.setColor(Color.BLACK);
 			g.drawRect((int)crab.x - Offset + 30 ,(int)crab.y + 5  , CRABBY_WIDTH - 57, CRABBY_HEIGHT-10);
 		}

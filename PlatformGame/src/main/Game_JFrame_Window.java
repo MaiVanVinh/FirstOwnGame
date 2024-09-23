@@ -19,7 +19,7 @@ public class Game_JFrame_Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(new KeyBoardAction(panel));
 		frame.requestFocus();
-        
+        frame.setResizable(false);
 		frame.add(panel);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
