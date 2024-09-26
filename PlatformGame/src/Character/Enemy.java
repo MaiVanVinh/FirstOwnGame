@@ -2,20 +2,11 @@ package Character;
 
 
 
-import java.util.ArrayList;
 import main.MainGame;
 
-public class Crab_Enemy extends Entity {
+public class Enemy extends Entity {
 	
-	public static int CrabX_LeftPos;
-	public static int CrabX_RightPos;
-	public static int CrabY_HeadPos;
-	public static final int CRABBY_WIDTH_DEFAULT = 72;
-	public static final int CRABBY_HEIGHT_DEFAULT = 32;
-	public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * MainGame.SCALE);
-	public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * MainGame.SCALE);
-
-	ArrayList<Crab_Enemy> list = new ArrayList<>();
+	public static int EnemyX_LeftPos;
 	public   static int Offset;
 	private  int enemyDir = 1;
 	private  float enemySpeed = 1;
@@ -23,17 +14,20 @@ public class Crab_Enemy extends Entity {
 	private  boolean firstUpdate = true;
 	private  float airSpeed = 0f;
 	private  float gravity = 0.09f * MainGame.SCALE;
+	public static boolean checkGetHitFromPlayer = false;
+	protected boolean active = true; 
+	protected int enemyState = 1; 
 	long lastCheck = System.currentTimeMillis();
 
 	
-	public Crab_Enemy(float x, float y) {
-		super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT);
-		createHitbox(x - Offset + 30 ,y + 5 , CRABBY_WIDTH - 57, CRABBY_HEIGHT-10);
+	public Enemy(float x, float y, float width, float height) {
+		super(x, y, width, height);
+		createHitbox(x - Offset ,y , width, height);
 	}
 	
 	
 	
-	public void checkHitBox_withEnv(int [][] levelData) {
+	protected void checkHitBox_withEnv(int [][] levelData) {
 		
 		if (firstUpdate) {
 			if (!CheckHitBox.IsEntityOnFloor(hitbox, levelData))
@@ -42,7 +36,7 @@ public class Crab_Enemy extends Entity {
 		}
 		
 		if (inAir) {
-			if (CheckHitBox.CanMoveHere(x - Offset + 30 ,y + airSpeed,  CRABBY_WIDTH - 57, CRABBY_HEIGHT-10, levelData)) {
+			if (CheckHitBox.CanMoveHere(x,y + airSpeed,  width, height, levelData)) {
 				y += airSpeed;
 				airSpeed += gravity;
 			
@@ -51,45 +45,33 @@ public class Crab_Enemy extends Entity {
 			}
 		}else {
 			
-			
 
-			
-
-	
-		    
 			
 			if(enemyDir == 1) // 1 is Left --- 0 is Right
 				enemySpeed = (float) -1;
 			else
 				enemySpeed = (float) 1;
 			
-		   CrabX_LeftPos = (int) (x - Offset + 30);
-
+			EnemyX_LeftPos = (int) (x + 30 - Offset);
 			
-			if (CheckHitBox.CanMoveHere(x + 30 + enemySpeed ,y ,  CRABBY_WIDTH - 57, CRABBY_HEIGHT-10, levelData)) {
-				if(CheckHitBox.CheckEgde(x + 30 + enemySpeed ,y ,  CRABBY_WIDTH - 57, CRABBY_HEIGHT-10, levelData)) {
+			
+	        if(checkGetHitFromPlayer) 
+	            checkGettingHit();  
+	           
+	        
+			if (CheckHitBox.CanMoveHere(x + 30  + enemySpeed ,y , width, height, levelData)) {
+				if(CheckHitBox.CheckEgde(x + 30  + enemySpeed ,y , width, height, levelData)) {
 					if(checkInRange()) 
 				    	 turnTowardsPlayer();
 				    x += enemySpeed;
 				    return;		
 				}
-			}
-			
-			
-			
+			}		
             changeDir();
-			
-			
-            checkInRange();
-			
-			
-			
-			
+            active = true;
+
+
 		}
-		
-		
-		
-		
 		
 	}
 
@@ -104,7 +86,7 @@ public class Crab_Enemy extends Entity {
 	}
 	
 	private void turnTowardsPlayer() {
-		if (Player.PlayerX_RightPos > CrabX_LeftPos) 
+		if (Player.PlayerX_RightPos > EnemyX_LeftPos) 
 			enemySpeed = (float) 1; // move to right
 		else 
 			enemySpeed = (float) -1;
@@ -117,7 +99,7 @@ public class Crab_Enemy extends Entity {
 	private boolean checkInRange() {
 		   
 	        // Calculate distance between player and enemy
-	        int dx = (int) ((Player.PlayerX_LeftPos) - CrabX_LeftPos);
+	        int dx = (int) ((Player.PlayerX_LeftPos) - EnemyX_LeftPos);
 	        int dy = (int) (Player.PlayerY_UpPos - y);
 	        if(Math.abs(dy) >= 102)
 	        	return false;
@@ -126,12 +108,27 @@ public class Crab_Enemy extends Entity {
             	Player.PlayerGetHit = true;
 
            
-	        if(Player.PlayerX_RightPos > CrabX_LeftPos)
+	        if(Player.PlayerX_RightPos > EnemyX_LeftPos)
 			   return Math.abs(dx) < 65;
 	        else
 	           return Math.abs(dx) < 120;
 	    }
 	
+	private void checkGettingHit() {
+		int dx = (int) ((Player.Player_AttackRange) - EnemyX_LeftPos);
+		if(dx > -25 && dx < 44) {
+			active = false;
+		}
+	}
+
+	
+	public boolean isActive() {
+		return active;
+	}
+	
+	public int getEnemyState() {
+		return enemyState;
+	}
 	
 
 

@@ -1,8 +1,6 @@
 package Character;
 
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Entity {
@@ -18,10 +16,10 @@ public abstract class Entity {
 	
 	}
 	
-	public void drawHitBox(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawRect((int) hitbox.x , (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
-	}
+//	public void drawHitBox(Graphics g) {
+//		g.setColor(Color.BLACK);
+//		g.drawRect((int) hitbox.x , (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+//	}
 	
 	protected void createHitbox(float x, float y, float width, float height) {
 		hitbox = new Rectangle2D.Float(x, y, width, height);

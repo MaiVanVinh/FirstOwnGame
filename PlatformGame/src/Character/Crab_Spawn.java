@@ -1,6 +1,5 @@
 package Character;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -25,8 +24,8 @@ public class Crab_Spawn {
 	public static final int CRABBY_HEIGHT_DEFAULT = 32;
 	public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * MainGame.SCALE);
 	public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * MainGame.SCALE);
-
-	ArrayList<Crab_Enemy> numberOfCrabs = new ArrayList<>();
+	
+	ArrayList<Crab> numberOfCrabs = new ArrayList<>();
    
 	
 
@@ -46,19 +45,25 @@ public class Crab_Spawn {
 	}
     
 	public void update(int [][] levelData) {
-		for (Crab_Enemy crab : numberOfCrabs) {
-			crab.checkHitBox_withEnv(levelData);
+		for (Crab crab : numberOfCrabs) {
+			if(crab.isActive()) {
+			   crab.updateMove(levelData);
+			}
 		}	
+		
 	}
 
 	
 	public void renderCrabs(Graphics g) {
-		Crab_Enemy.Offset = Offset;
+		Enemy.Offset = Offset;
 		update(MapManager.levelData_Player);
-		for(Crab_Enemy crab : numberOfCrabs) {
-			g.drawImage(Animation[1][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
-			g.setColor(Color.BLACK);
-			g.drawRect((int)crab.x - Offset + 30 ,(int)crab.y + 5  , CRABBY_WIDTH - 57, CRABBY_HEIGHT-10);
+		for(Crab crab : numberOfCrabs) {		
+			if(crab.isActive()) 
+			   g.drawImage(Animation[crab.getEnemyState()][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+			else 
+			   g.drawImage(Animation[4][1], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+				 
+			
 		}
 	}
 

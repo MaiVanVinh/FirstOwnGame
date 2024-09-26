@@ -1,6 +1,7 @@
 package main;
 
 
+
 import javax.swing.JFrame;
 import KeyBoardInput.KeyBoardAction;
 
@@ -14,7 +15,7 @@ public class Game_JFrame_Window {
 
 
 	public Game_JFrame_Window(Game_JPanel panel) {
-
+        
 		frame = new JFrame();	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(new KeyBoardAction(panel));
@@ -26,4 +27,7 @@ public class Game_JFrame_Window {
 		frame.setVisible(true);
 		
 	}
+	
+
+	
 }

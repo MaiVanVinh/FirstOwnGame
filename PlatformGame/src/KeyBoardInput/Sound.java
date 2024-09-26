@@ -13,6 +13,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 
 	Clip clip;
+    float prevVol = 0;
+    float cVol = 0;
 	FloatControl fc;
 	public URL soundURL[] = new URL[30];
 	
@@ -30,9 +32,24 @@ public class Sound {
             fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             fc.setValue(volume);
      	    clip.start();
-
-		
 	}
+	
+	
+	   public void volumeUp() {
+		   cVol += 1.0f;
+		   if(cVol > 6.0f) {
+			   cVol = 6.0f;
+		   }
+		   fc.setValue(cVol);
+	   }
+	   
+	   public void volumeDown() {
+		   prevVol -= 1.0f;
+		   if(prevVol <= -80.0f) {
+			   prevVol = -80.0f;
+		   }
+		   fc.setValue(prevVol);
+	   }
 	
 	public boolean checkActive() {
 		if(clip.isActive()) return true;

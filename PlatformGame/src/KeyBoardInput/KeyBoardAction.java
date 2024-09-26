@@ -2,7 +2,10 @@ package KeyBoardInput;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+
 import main.Game_JPanel;
+import main.MainGame;
 
 
 
@@ -26,44 +29,27 @@ public class KeyBoardAction implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		 int keyCode = e.getKeyCode();
-	        
 	        switch (keyCode) {
-	        
-	        case KeyEvent.VK_UP:
-	     	   
-                jpanel.getGame().getPlayer().state_ani = 1;
-                jpanel.getGame().getPlayer().setUp(true);
-                SwitchAction.action = 1;
-                
-                break;
-            case KeyEvent.VK_DOWN:
-            		
-                jpanel.getGame().getPlayer().state_ani = 1;
-                jpanel.getGame().getPlayer().setDown(true);
-                SwitchAction.action = 1;
-                break;
-                
+               
 	            case KeyEvent.VK_LEFT:
-
-	                jpanel.getGame().getPlayer().state_ani = 2;
+	            	
+	                jpanel.getGame().getPlayer().state_ani = 3;
 	                jpanel.getGame().getPlayer().setLeft(true);
-	                SwitchAction.action = 1;
+	                SwitchAction.action = 3;
 	            	
 	                break;
 	            case KeyEvent.VK_RIGHT:
 	            	
 	            	
-	                jpanel.getGame().getPlayer().state_ani = 1;
+	                jpanel.getGame().getPlayer().state_ani = 2;
 	                jpanel.getGame().getPlayer().setRight(true);
-	                SwitchAction.action = 1;
+	                SwitchAction.action = 2;
 	            	
 	                break;
 	                
 	            case 90:
-	            	SwitchAction.action = 0;
 	            	
 	            	isAttacking = true;
-	                jpanel.getGame().getPlayer().state_ani = 6;
 	                jpanel.getGame().getPlayer().setAttack(true);
 	                SwitchAction.attack = 2;
 	            	break;
@@ -72,6 +58,16 @@ public class KeyBoardAction implements KeyListener{
 	    		case KeyEvent.VK_SPACE:
 	    			jpanel.getGame().getPlayer().setJump(true);
 	    			jpanel.getGame().getPlayer().doubleJump++;
+	    			break;
+	    			
+	     		case KeyEvent.VK_P:
+	     			
+	     			if(!MainGame.pause)
+	     				MainGame.pause = true;
+	     			else
+	     				MainGame.pause = false;
+	     			
+	     			//jpanel.pauseMenu();
 	    			break;
 
 	 
@@ -84,28 +80,13 @@ public class KeyBoardAction implements KeyListener{
 		 int keyCode = e.getKeyCode();
 	        
 	        switch (keyCode) {
-	        
-            case KeyEvent.VK_UP:
-
-            	if(!isAttacking) SwitchAction.attack = 0;
-            	jpanel.getGame().getPlayer().setUp(false);
-            	SwitchAction.action = 0;
-            	
-                break;
-                
-            case KeyEvent.VK_DOWN:
-            	
-            	if(!isAttacking) SwitchAction.attack = 0;
-            	jpanel.getGame().getPlayer().setDown(false);
-            	SwitchAction.action = 0;
-            	
-                break;
+	       
                 
 	            case KeyEvent.VK_LEFT:
 	            	
 	            	if(!isAttacking) SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setLeft(false);
-	            	SwitchAction.action = 0;
+	            	SwitchAction.action = 1;
 	            	
 	                break;
 	            case KeyEvent.VK_RIGHT:

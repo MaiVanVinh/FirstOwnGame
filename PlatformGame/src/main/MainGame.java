@@ -17,6 +17,7 @@ public class MainGame implements Runnable{
 	
 	Game_JFrame_Window window_game;
 	Game_JPanel panel_game;
+    PauseMenu pauseMenu;
 	Player player ;
 	Crab_Spawn crab;
 	MapManager map;
@@ -38,13 +39,15 @@ public class MainGame implements Runnable{
 	int i = 0;
 	int soundIndex = 2;
 	
+	public static boolean pause = false;
+	
 	public MainGame() {
 		
         sound = new Sound();
         getSound(soundIndex);
         
-        
 		initializePlayer();
+		
 		panel_game = new Game_JPanel(this);
 		window_game = new Game_JFrame_Window(panel_game);
 		GameRepaintThread();
@@ -56,6 +59,8 @@ public class MainGame implements Runnable{
 	}
 	
 	public void initializePlayer() {
+//		pauseMenu = new PauseMenu();
+//		pauseMenu.setVisible(true);
 		map = new MapManager(this);
 		player = new Player(20,100, (int) (64*SCALE), (int) (40*SCALE) );
 		crab = new Crab_Spawn();
@@ -66,13 +71,14 @@ public class MainGame implements Runnable{
 		
 		map.player_xPos = player.xPos;
 		map.get_Map_Level(g);
+	
+	    if(!pause) {
+		   player.updateBigMap = map.xLvlOffset;
+		   player.renderPlayer(g);
 		
-		player.updateBigMap = map.xLvlOffset;
-		player.renderPlayer(g);
-		
-		crab.Offset =  map.xLvlOffset;
-		crab.renderCrabs(g);
-		
+		   crab.Offset =  map.xLvlOffset;
+		   crab.renderCrabs(g);
+	    }	
 
 	}
 	
@@ -82,7 +88,7 @@ public class MainGame implements Runnable{
 
    public void update() {
 	   takeAction = SwitchAction.action;
-	   player.frame1 = (SwitchAction.GetFramesAction(takeAction) );
+	   player.frame1 = (SwitchAction.GetFramesAction(takeAction));
 	   crab.updateCrabState();
 	   player.updatePlayer();
 
@@ -107,7 +113,7 @@ public class MainGame implements Runnable{
 		long nowframe = System.currentTimeMillis();
 		
 		
-		//int frames = 0;
+		
 		long lastCheck = System.currentTimeMillis();
 		
 		while(true) {
@@ -118,20 +124,21 @@ public class MainGame implements Runnable{
 			if(now - lastTime >= nanoFPS) {
 				panel_game.repaint();
 				lastTime = now;
-				//frames++;
 			}
 
 		
 			
 			if (System.currentTimeMillis() - lastCheck >= 5000) {
-				if(!sound.checkActive()) getSound(soundIndex);
+//				if(!pause)
+//				   pause = true;
+//				else
+//				   pause = false;
+//				if(!sound.checkActive()) getSound(soundIndex);
 				lastCheck = System.currentTimeMillis();
-				//System.out.println("FPS: " + frames);
-				//frames = 0;
 			}
 			
 			nowframe = System.currentTimeMillis();
-			if(nowframe - loadframe >= 150) {
+			if(nowframe - loadframe >= 170) {
 			    update();
 				loadframe = System.currentTimeMillis();
 
@@ -143,6 +150,9 @@ public class MainGame implements Runnable{
 		}
 		
 	}
+	
+	
+
 	
 	
 	private void getSound(int i)  {

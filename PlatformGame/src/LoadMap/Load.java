@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import Character.Crab_Enemy;
+import Character.Crab;
 import main.MainGame;
 
 
@@ -25,7 +25,7 @@ public class Load {
 	public static final String MAP_LEVEL_TEST3  = "TestMap3.png";
 	public static final String MAP_LEVEL_TEST4  = "TestMap4.png";
 	public static final String TILE_2D = "2D Tiles.png";
-	
+	public static final String HEALTH_BAR = "health_bar2.png";
 	
 	
 	public static BufferedImage LoadImage(String name) {
@@ -53,8 +53,8 @@ public class Load {
 	}
 	
 	
-	public static ArrayList<Crab_Enemy> GetCrabs(){
-		ArrayList<Crab_Enemy> list = new ArrayList<>();	
+	public static ArrayList<Crab> GetCrabs(){
+		ArrayList<Crab> list = new ArrayList<>();	
 		BufferedImage img = LoadImage(MAP_LEVEL_FOUR);
 		
 		for (int j = 0; j < img.getHeight(); j++) {
@@ -63,11 +63,11 @@ public class Load {
 				int value = color.getGreen();
 				
 				if (value == 0) {
-                   list.add(new Crab_Enemy(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE - 40));
+                   list.add(new Crab(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
 				}
 			}		
 		}
-		
+
 		return list;
 	}
 	

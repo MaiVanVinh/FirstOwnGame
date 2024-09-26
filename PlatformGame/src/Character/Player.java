@@ -1,6 +1,8 @@
 package Character;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +12,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
+import LoadMap.Load;
 import LoadMap.MapManager;
 import main.MainGame;
 
@@ -23,24 +26,32 @@ public class Player extends Entity {
 	public static int PlayerX_LeftPos;
 	public static int PlayerY_UpPos;
 	public static boolean PlayerGetHit;
+	public static int Player_AttackRange;
 	
 
 	private int f;
 
 	private int[][] levelData;
     private BufferedImage img;
+    private BufferedImage img_healthBar;
     private BufferedImage[][] Animation;
-    private boolean left, right,up,down, attack, jump;
+    private boolean left, right, attack, jump;
     private int i = 0;
 
 	private float airSpeed = 0f;
 	private float gravity = 0.09f * MainGame.SCALE;
 	private float jumpSpeed = -3.4f * MainGame.SCALE;
 	private boolean inAir = false;
+	public boolean checkStandingLeft;
 	public int doubleJump = 0;
 	
+	
 	private boolean acJumpSound = true;
+	private Rectangle2D.Float attackRange;
     private Sound sound;
+    
+	private int healthWidth = (int) (246*MainGame.SCALE);
+
 
     
 	public Player(float x, float y, float width, float height) {
@@ -48,6 +59,7 @@ public class Player extends Entity {
 		loadAni();
 		sound = new Sound();
 		levelData = MapManager.levelData_Player;
+		attackRange = new Rectangle2D.Float(x, y, width, height);
 	}
 	
 	public void updatePlayer() {
@@ -58,9 +70,12 @@ public class Player extends Entity {
 	
 	private void updateState() {
 		createHitbox(x+35, y+7, width-70, height-22);
-
+		setAttackRange();
 		
-		if(SwitchAction.action < 1) state_ani = 0;
+		if(SwitchAction.action == 0) state_ani = 0;
+		else if (SwitchAction.action == 1)state_ani = 1;
+		   
+		
 		
 		if (jump) {
 			if(acJumpSound) { getSound();}  
@@ -70,47 +85,28 @@ public class Player extends Entity {
 		}
 	
 
-
-		
-//		if (left && !right && !PlayerGetHit) {
-//			x -= 2.2;
-//			state_ani = 1;
-//		} else if (right && !left && !PlayerGetHit) {
-//			x += 2.2;
-//			state_ani = 1;
-//		}
-		
-
-
-    	
 		if (left && !right) {
 			x -= 2.2;
-			state_ani = 2;
+			state_ani = 3;
 		} else if (right && !left) {
 			x += 2.2;
-			state_ani = 1;
+			state_ani = 2;
 		}
 		
-    
-	  
 
-
- 
-  
-  
-
-		if (up && !down) {
-			y -= 2.2;
-			state_ani = 1;
-		} else if (down && !up) {
-			y += 2.2;
-			state_ani = 1;
-		}
 		
 	
 
 	
-		if(attack) state_ani = 6;  
+		if(attack) { 
+			if( (right && !left) || state_ani == 0)
+			  state_ani = 6;
+			else if((left && !right) || state_ani == 1)
+			  state_ani = 7;
+		
+				
+		}
+
 		
 		if (!inAir)
 			if (!CheckHitBox.IsEntityOnFloor(hitbox, levelData))
@@ -128,9 +124,7 @@ public class Player extends Entity {
 			}
 		}
 		
-		
 
-	
 		if(!CheckHitBox.CanMoveHere(x+35, y+7, width-70, height-22,levelData)) {
 			if(right) x -= 2.2;
 			if(left) x += 2.2;
@@ -139,6 +133,28 @@ public class Player extends Entity {
 
 		
 	}
+	
+	private void checkAttackingToEnemy() {
+	  if(attack) {	
+		 if(f == 2 || f == 5) 
+			 Enemy.checkGetHitFromPlayer = true; 
+		 else 
+			 Enemy.checkGetHitFromPlayer = false;
+			
+	  }else 	
+		  Enemy.checkGetHitFromPlayer = false;
+
+	}
+
+	private void setAttackRange() {
+		
+	   if((right && !left) || state_ani == 0 || state_ani == 2)
+		   attackRange.setRect((x + 65), y + 20, width - 67, height - 35);		
+	   else if((left && !right) || state_ani == 1|| state_ani == 3)
+		   attackRange.setRect(x + 25, y + 20, width - 67, height - 35);
+
+	}
+	
 
 
 	
@@ -152,33 +168,57 @@ public class Player extends Entity {
 
 	public void renderPlayer(Graphics g) {
 		updateState();
-		xPos = x + 35;
-		hitbox.x += updateBigMap;
+		getPlayerPosition();
+		drawAttackRange(g);
+		drawHeathBar(g);
 		
-		
-		PlayerX_RightPos = (int) (x + 35 - updateBigMap);
-		
-		PlayerX_LeftPos = (int) (x - updateBigMap);
-		
-		PlayerY_UpPos = (int) (y - 3);
-		
-		if(PlayerGetHit) 
+		if(PlayerGetHit) { 
 			y -=3;
-
-		
+			updateHealth();
+		}
+		checkAttackingToEnemy();
         g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
         PlayerGetHit  = false;
 
 	}
 	
 	
+	
+	public void updateHealth() {
+		healthWidth -= 0.25;
+		if(healthWidth < 1)
+			System.out.println("Die");
+			
+	}
+	
+	
+	
+	private void drawHeathBar(Graphics g) {
+		g.drawImage(img_healthBar,0, 0, (int)(img_healthBar.getWidth()*MainGame.SCALE), (int)(img_healthBar.getHeight()*MainGame.SCALE), null);
+		g.setColor(Color.red);
+		g.fillRect(51, 21, healthWidth ,(int) (4*MainGame.SCALE));
+	}
 
 	
+	
+	private void drawAttackRange(Graphics g) {
+		Player_AttackRange = (int) attackRange.x  - updateBigMap;
+	}
+	
+	
+
+	private void getPlayerPosition() {
+		xPos = x + 35;
+		hitbox.x += updateBigMap;
+		PlayerX_RightPos = (int) (x + 35 - updateBigMap);
+		PlayerX_LeftPos = (int) (x - updateBigMap);
+		PlayerY_UpPos = (int) (y - 3);
+	}
 	
 
 	private void loadAni() {
-		InputStream is = getClass().getResourceAsStream("/player_sprites.png");
-
+		InputStream is = getClass().getResourceAsStream("/player_sprites_edit.png");
+		img_healthBar = Load.LoadImage(Load.HEALTH_BAR);
 		try {
 			img = ImageIO.read(is);
 			Animation = new BufferedImage[9][6];
@@ -199,6 +239,8 @@ public class Player extends Entity {
 					e.printStackTrace();
 				}
 		}
+		
+		
 
 	}
 	
@@ -231,17 +273,5 @@ public class Player extends Entity {
 	}
 	
 
-
-	public void setUp(boolean up2) {
-		this.up = up2;
-	}
-	
-	public void setDown(boolean down2) {
-		this.down = down2;
-	}
-
-	
-	
-	
 
 }
