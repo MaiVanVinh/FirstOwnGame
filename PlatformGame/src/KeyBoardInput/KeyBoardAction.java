@@ -67,7 +67,7 @@ public class KeyBoardAction implements KeyListener{
 	     			else
 	     				MainGame.pause = false;
 	     			
-	     			//jpanel.pauseMenu();
+	     			jpanel.pauseMenu();
 	    			break;
 
 	 

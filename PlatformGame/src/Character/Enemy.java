@@ -16,7 +16,8 @@ public class Enemy extends Entity {
 	private  float gravity = 0.09f * MainGame.SCALE;
 	public static boolean checkGetHitFromPlayer = false;
 	protected boolean active = true; 
-	protected int enemyState = 1; 
+	protected int enemyState = 1;
+	protected int deadAnimationTick = 0;
 	long lastCheck = System.currentTimeMillis();
 
 	
@@ -124,6 +125,10 @@ public class Enemy extends Entity {
 	
 	public boolean isActive() {
 		return active;
+	}
+	
+	public int getDeadAniTick() {
+		return deadAnimationTick;
 	}
 	
 	public int getEnemyState() {

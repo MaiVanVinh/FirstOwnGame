@@ -136,7 +136,7 @@ public class Player extends Entity {
 	
 	private void checkAttackingToEnemy() {
 	  if(attack) {	
-		 if(f == 2 || f == 5) 
+		 if(f == 4 || f == 5) 
 			 Enemy.checkGetHitFromPlayer = true; 
 		 else 
 			 Enemy.checkGetHitFromPlayer = false;

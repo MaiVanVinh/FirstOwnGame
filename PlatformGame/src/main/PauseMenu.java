@@ -48,10 +48,12 @@ public class PauseMenu extends JPanel {
 		
 		restart = new JButton("Restart");
 		restart.setBounds(62, 375, 132, 56);
+		restart.setFocusable(false);
 		add(restart);
 		
 		continueButton = new JButton("Continue");
 		continueButton.setBounds(285, 375, 132, 56);
+		continueButton.setFocusable(false);
 		continueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
      			if(!MainGame.pause)
@@ -81,6 +83,7 @@ public class PauseMenu extends JPanel {
 		
 		sliderMusic = new JSlider(-60,6,-23);
 		sliderMusic.setBounds(135, 116, 200, 26);
+		sliderMusic.setFocusable(false);
 		sliderMusic.setValue(-23);
 		sliderMusic.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -90,11 +93,13 @@ public class PauseMenu extends JPanel {
 		
 		sliderSound = new JSlider(-60,6,-23);
 		sliderSound.setBounds(135, 248, 200, 26);
+		sliderSound.setFocusable(false);
 		sliderSound.setValue(-23);
 		add(sliderSound);
 		
 		nextSong = new JButton("Next Song");
 		nextSong.setBounds(374, 119, 100, 33);
+		nextSong.setFocusable(false);
 		add(nextSong);
 		
 	}
