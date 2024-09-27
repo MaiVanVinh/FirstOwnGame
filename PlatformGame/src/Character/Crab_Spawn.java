@@ -60,10 +60,11 @@ public class Crab_Spawn {
 		for(Crab crab : numberOfCrabs) {		
 			if(crab.isActive()) 
 			   g.drawImage(Animation[crab.getEnemyState()][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
-			else 
-			   g.drawImage(Animation[4][1], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
-				 
-			
+			else{ 
+			   if(crab.firstCheck < 50)	
+			        g.drawImage(Animation[4][1], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+		        }	 
+			crab.firstCheck++; 
 		}
 	}
 
