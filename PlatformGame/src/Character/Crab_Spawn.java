@@ -61,11 +61,13 @@ public class Crab_Spawn {
 			if(crab.isActive()) { 
 			   crab.deadAnimationTick = 0;
 			   g.drawImage(Animation[crab.getEnemyState()][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+
 			}else { 
 				if(crab.getDeadAniTick() < 200)
 			      g.drawImage(Animation[4][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
 				crab.deadAnimationTick++; 
 			}
+
 		}
 	}
 
