@@ -11,6 +11,7 @@ import Character.Crab_Spawn;
 import Character.Player;
 import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
+import LoadMap.Load;
 import LoadMap.MapManager;
 
 public class MainGame implements Runnable{
@@ -31,20 +32,28 @@ public class MainGame implements Runnable{
 	public final static int GAME_WIDTH = TILES_SIZE * TOTAL_TILES_IN_WIDTH;
 	public final static int GAME_HEIGHT = TILES_SIZE * TOTAL_TILES_IN_HEIGHT;
 	
+	public static int ChangeVolume = -23;
+	public static boolean resetSong = false;
+	public static boolean nextSong = false;
+	private int songIndex = 2;
+	
+	public static boolean nextMap = false;
+	
 	private Sound sound;
 	private Thread thread;
 	private final int FPS = 120;
 	private int takeAction;
-	public int isJumping;
+	
 	int i = 0;
-	int soundIndex = 2;
+
 	
 	public static boolean pause = false;
+	public static boolean restart = false;
 	
 	public MainGame() {
 		
         sound = new Sound();
-        getSound(soundIndex);
+        getSound(songIndex);
         
 		initializePlayer();
 		
@@ -59,10 +68,9 @@ public class MainGame implements Runnable{
 	}
 	
 	public void initializePlayer() {
-//		pauseMenu = new PauseMenu();
-//		pauseMenu.setVisible(true);
+		Load.mapControler();
 		map = new MapManager(this);
-		player = new Player(20,100, (int) (64*SCALE), (int) (40*SCALE) );
+		player = new Player(30,300, (int) (96*SCALE), (int) (84*SCALE) );
 		crab = new Crab_Spawn();
 		  
 	}
@@ -78,7 +86,7 @@ public class MainGame implements Runnable{
 		
 		   crab.Offset =  map.xLvlOffset;
 		   crab.renderCrabs(g);
-	    }	
+	    }
 
 	}
 	
@@ -91,7 +99,10 @@ public class MainGame implements Runnable{
 	   player.frame1 = (SwitchAction.GetFramesAction(takeAction));
 	   crab.updateCrabState();
 	   player.updatePlayer();
-
+       if(restart) {
+    	   initializePlayer();
+    	   restart = false;
+       }
 	   
    }
    
@@ -126,27 +137,47 @@ public class MainGame implements Runnable{
 				lastTime = now;
 			}
 
+			if(nextMap) { 
+				if(Load.index == 0)
+				   Load.index = 1;
+				else
+				   Load.index = 0;
+				initializePlayer();
+			}	
+			nextMap = false;	
+			
+				
 		
 			
 			if (System.currentTimeMillis() - lastCheck >= 5000) {
-//				if(!pause)
-//				   pause = true;
-//				else
-//				   pause = false;
-//				if(!sound.checkActive()) getSound(soundIndex);
+				if(!sound.checkActive()) getSound(songIndex);
 				lastCheck = System.currentTimeMillis();
 			}
 			
 			nowframe = System.currentTimeMillis();
-			if(nowframe - loadframe >= 170) {
+			if(nowframe - loadframe >= 150) {
 			    update();
 				loadframe = System.currentTimeMillis();
 
 			}
 			
+			if(resetSong)
+			   sound.reset();
+			resetSong = false;
+			
+            if(nextSong) {
+            	if(songIndex == 2)
+            		songIndex = 1;
+            	else
+            		songIndex = 2;
+            	sound.nextSong(songIndex, ChangeVolume);
+            }nextSong = false;
+            
+			if(ChangeVolume == -60) 
+			   sound.fc.setValue(-75);
+			else 
+			   sound.fc.setValue(ChangeVolume);
 
-			
-			
 		}
 		
 	}
@@ -157,7 +188,7 @@ public class MainGame implements Runnable{
 	
 	private void getSound(int i)  {
 		try {
-			sound.getSound(i ,-10);
+			sound.getSound(i ,-23);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

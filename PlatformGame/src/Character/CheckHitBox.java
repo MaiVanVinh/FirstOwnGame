@@ -12,6 +12,7 @@ public class CheckHitBox {
 				if (!IsCollided(x + width, y, levelData))
 					 if (!IsCollided(x + width, y + height, levelData)) 
 						return true;
+		
 		return false;
 	}
 	
@@ -27,16 +28,13 @@ public class CheckHitBox {
         
 
 		
-		return IsTileSolid((int) xIndex, (int) yIndex, levelData);
-	}
-	
-	public static boolean IsTileSolid(int xTile, int yTile, int[][] levelData) {
-		int value = levelData[yTile][xTile];
+		int value = levelData[(int)yIndex][(int)xIndex];
 
 		if (value >= 48 || value < 0 || value != 11)
 			return true;
 		return false;
 	}
+	
 
 
 	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] levelData) {
@@ -48,35 +46,14 @@ public class CheckHitBox {
 
 	}
 	
-	public static boolean CheckEgde(float x, float y,float width,float height, int[][] levelData) {
-        return (IsCollided(x, y + height + 10, levelData));
+	public static boolean CheckEgde(float xSpeed, float x, float y,float width,float height, int[][] levelData) {
+	    if(xSpeed > 0)		
+		  return (IsCollided(x + width, y + height + 10, levelData));
+	    else
+	      return (IsCollided(x, y + height + 10, levelData));
 	}
 	
 
-	
-	
-	
-//	public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData) {
-//		for (int i = 0; i < xEnd - xStart; i++) {
-//			if (IsCollided(xStart + i, y , levelData))
-//				return false;
-//			if (!IsCollided(xStart + i, y, levelData))
-//				return false;
-//		}
-//
-//		return true;
-//	}
-//
-//	public static boolean IsClear(int[][] levelData, int firstHitbox, int secondHitbox, int yTile) {
-//		int firstXTile = (int) (firstHitbox / MainGame.TILES_SIZE);
-//		int secondXTile = (int) (secondHitbox / MainGame.TILES_SIZE);
-//
-//		if (firstXTile > secondXTile)
-//			return IsAllTilesWalkable(secondHitbox, firstHitbox, yTile, levelData);
-//		else
-//			return IsAllTilesWalkable(firstHitbox, secondHitbox, yTile, levelData);
-//
-//	}
 
 
 	

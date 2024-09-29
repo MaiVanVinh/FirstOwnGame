@@ -7,6 +7,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+
+import Character.Player;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,6 +44,7 @@ public class PauseMenu extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		//setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(500, 500));
 		setBackground(Color.DARK_GRAY);
@@ -49,6 +53,16 @@ public class PauseMenu extends JPanel {
 		restart = new JButton("Restart");
 		restart.setBounds(62, 375, 132, 56);
 		restart.setFocusable(false);
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainGame.restart = true;
+	  			if(!MainGame.pause)
+     				MainGame.pause = true;
+     			else
+     				MainGame.pause = false;
+	  			MainGame.resetSong = true;
+				setVisible(false);
+			}});
 		add(restart);
 		
 		continueButton = new JButton("Continue");
@@ -94,19 +108,31 @@ public class PauseMenu extends JPanel {
 		sliderSound = new JSlider(-60,6,-23);
 		sliderSound.setBounds(135, 248, 200, 26);
 		sliderSound.setFocusable(false);
-		sliderSound.setValue(-23);
+		sliderSound.setValue(-40);
+		sliderSound.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				changeVolumeMusic();			
+			}});
 		add(sliderSound);
 		
 		nextSong = new JButton("Next Song");
 		nextSong.setBounds(374, 119, 100, 33);
 		nextSong.setFocusable(false);
+		nextSong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nextSong();			
+			}});
 		add(nextSong);
 		
 	}
 
 
 	private void changeVolumeMusic() {
-		
+		MainGame.ChangeVolume = sliderMusic.getValue();
+		Player.ChangeVolume = sliderSound.getValue();
 	}
-
+	
+	private void nextSong() {
+		MainGame.nextSong = true;
+	}
 }

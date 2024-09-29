@@ -13,15 +13,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 
 	Clip clip;
-    float prevVol = 0;
-    float cVol = 0;
-	FloatControl fc;
+	public FloatControl fc;
 	public URL soundURL[] = new URL[30];
 	
 	public Sound() {
 		soundURL[0] = getClass().getResource("/jump.wav");
 		soundURL[1] = getClass().getResource("/Pitiful face.wav");
 		soundURL[2] = getClass().getResource("/ThienLyOi.wav");
+		soundURL[3] = getClass().getResource("/attackSound.wav");
 
 	}
 	
@@ -34,22 +33,24 @@ public class Sound {
      	    clip.start();
 	}
 	
+	public void reset() {
+		clip.stop();
+		clip.setFramePosition(0);
+	}
 	
-	   public void volumeUp() {
-		   cVol += 1.0f;
-		   if(cVol > 6.0f) {
-			   cVol = 6.0f;
-		   }
-		   fc.setValue(cVol);
-	   }
-	   
-	   public void volumeDown() {
-		   prevVol -= 1.0f;
-		   if(prevVol <= -80.0f) {
-			   prevVol = -80.0f;
-		   }
-		   fc.setValue(prevVol);
-	   }
+	public void nextSong(int index,int volume) {
+		clip.stop();
+		clip.setFramePosition(0);
+		clip.close();
+		try {
+			getSound(index,volume);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public boolean checkActive() {
 		if(clip.isActive()) return true;

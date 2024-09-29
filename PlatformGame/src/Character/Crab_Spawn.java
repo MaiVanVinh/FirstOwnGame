@@ -26,6 +26,7 @@ public class Crab_Spawn {
 	public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * MainGame.SCALE);
 	
 	ArrayList<Crab> numberOfCrabs = new ArrayList<>();
+	public static int numCrabs;
    
 	
 
@@ -37,6 +38,7 @@ public class Crab_Spawn {
 	
 	private void addCrabs() {
 		numberOfCrabs = Load.GetCrabs();
+		numCrabs = numberOfCrabs.size();
 	}
 	
 	public void updateCrabState(){
@@ -68,7 +70,10 @@ public class Crab_Spawn {
 				crab.deadAnimationTick++; 
 			}
 
-		}
+		} if(numCrabs == 0)
+			   MainGame.nextMap = true;
+		
+	
 	}
 
 	private void loadEnemy() {

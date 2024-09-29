@@ -12,8 +12,6 @@ import main.MainGame;
 public class KeyBoardAction implements KeyListener{
 	
     private Game_JPanel jpanel;
-	private boolean isAttacking;
-     
 	public KeyBoardAction(Game_JPanel panel) {
           this.jpanel = panel;
 
@@ -48,8 +46,7 @@ public class KeyBoardAction implements KeyListener{
 	                break;
 	                
 	            case 90:
-	            	
-	            	isAttacking = true;
+
 	                jpanel.getGame().getPlayer().setAttack(true);
 	                SwitchAction.attack = 2;
 	            	break;
@@ -57,7 +54,6 @@ public class KeyBoardAction implements KeyListener{
 	            	
 	    		case KeyEvent.VK_SPACE:
 	    			jpanel.getGame().getPlayer().setJump(true);
-	    			jpanel.getGame().getPlayer().doubleJump++;
 	    			break;
 	    			
 	     		case KeyEvent.VK_P:
@@ -84,23 +80,22 @@ public class KeyBoardAction implements KeyListener{
                 
 	            case KeyEvent.VK_LEFT:
 	            	
-	            	if(!isAttacking) SwitchAction.attack = 0;
+	            	SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setLeft(false);
 	            	SwitchAction.action = 1;
 	            	
 	                break;
 	            case KeyEvent.VK_RIGHT:
 
-	            	if(!isAttacking) SwitchAction.attack = 0;
+                    SwitchAction.attack = 0;
 	            	jpanel.getGame().getPlayer().setRight(false);
 	            	SwitchAction.action = 0;
 	            	
 	                break;
 	            case 90:
-	            	
-	            	isAttacking = false;
-	            	jpanel.getGame().getPlayer().setAttack(false);
-	            	
+//	               	jpanel.getGame().getPlayer().setAttack(false);
+//	            	SwitchAction.attack = 0;
+
 	                break;
 	                
 	    		case KeyEvent.VK_SPACE:

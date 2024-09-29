@@ -26,18 +26,18 @@ public class MapManager {
 	 private int diff;
 	 private int leftBorder = (int) (0.3   * MainGame.GAME_WIDTH);
 	 private int rightBorder = (int) (0.7 * MainGame.GAME_WIDTH);
-	 private int lvlTilesWide = Load.GetMapLevelData()[0].length;
-	 private int maxTilesOffset = lvlTilesWide - MainGame.TOTAL_TILES_IN_WIDTH;
-	 private int maxLvlOffsetX = maxTilesOffset * MainGame.TILES_SIZE;
+	 private int lvlTilesWide;    //= Load.GetMapLevelData()[0].length;
+	 private int maxTilesOffset; //= lvlTilesWide - MainGame.TOTAL_TILES_IN_WIDTH;
+	 private int maxLvlOffsetX; //= maxTilesOffset * MainGame.TILES_SIZE;
 	 public float player_xPos;
 	 public static int[][] levelData_Player;
 	
 	public MapManager(MainGame game){
 		this.game = game;
 		get_Tile_Block();
-		level = new Map(Load.GetMapLevelData());
-		levelData_Player = Load.GetMapLevelData();
-
+//		level = new Map(Load.GetMapLevelData());
+//		levelData_Player = Load.GetMapLevelData();
+		iniMapAndOffset();
 
 		InputStream is = getClass().getResourceAsStream("/bg3.png");
 		
@@ -52,6 +52,17 @@ public class MapManager {
 	       
 	    scaledImage = imageBackGround.getScaledInstance(1248, 672, Image.SCALE_SMOOTH); 
 	}
+	
+	
+	private void iniMapAndOffset() {
+		 lvlTilesWide = Load.GetMapLevelData()[0].length;
+		 maxTilesOffset = lvlTilesWide - MainGame.TOTAL_TILES_IN_WIDTH;
+		 maxLvlOffsetX = maxTilesOffset * MainGame.TILES_SIZE;
+		 level = new Map(Load.GetMapLevelData());
+		 levelData_Player = Load.GetMapLevelData();
+		 System.out.println(Load.mapControler.get(Load.index));
+	}
+	
 	
 	public void get_Tile_Block() {
 		game.warning();
