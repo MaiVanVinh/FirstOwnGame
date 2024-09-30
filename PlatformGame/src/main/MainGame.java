@@ -9,6 +9,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Character.Crab_Spawn;
 import Character.Player;
+import Character.Trap_Spawn;
 import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
 import LoadMap.Load;
@@ -21,7 +22,9 @@ public class MainGame implements Runnable{
     PauseMenu pauseMenu;
 	Player player ;
 	Crab_Spawn crab;
+	Trap_Spawn trap;
 	MapManager map;
+	
 	
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -70,6 +73,7 @@ public class MainGame implements Runnable{
 	public void initializePlayer() {
 		Load.mapControler();
 		map = new MapManager(this);
+		trap = new Trap_Spawn();
 		player = new Player(30,300, (int) (96*SCALE), (int) (84*SCALE) );
 		crab = new Crab_Spawn();
 		  
@@ -86,6 +90,9 @@ public class MainGame implements Runnable{
 		
 		   crab.Offset =  map.xLvlOffset;
 		   crab.renderCrabs(g);
+		   
+		   trap.Offset =  map.xLvlOffset;
+		   trap.renderTraps(g);
 	    }
 
 	}
@@ -166,10 +173,10 @@ public class MainGame implements Runnable{
 			resetSong = false;
 			
             if(nextSong) {
-            	if(songIndex == 2)
-            		songIndex = 1;
-            	else
+            	if(songIndex == 3)
             		songIndex = 2;
+            	else
+            		songIndex = 3;
             	sound.nextSong(songIndex, ChangeVolume);
             }nextSong = false;
             
@@ -188,7 +195,7 @@ public class MainGame implements Runnable{
 	
 	private void getSound(int i)  {
 		try {
-			sound.getSound(i ,-23);
+			sound.getSound(i ,ChangeVolume);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

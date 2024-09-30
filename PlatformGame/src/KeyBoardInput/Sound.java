@@ -18,9 +18,10 @@ public class Sound {
 	
 	public Sound() {
 		soundURL[0] = getClass().getResource("/jump.wav");
-		soundURL[1] = getClass().getResource("/Pitiful face.wav");
-		soundURL[2] = getClass().getResource("/ThienLyOi.wav");
-		soundURL[3] = getClass().getResource("/attackSound.wav");
+		soundURL[1] = getClass().getResource("/attackSound.wav");
+		soundURL[2] = getClass().getResource("/Pitifulface.wav");
+		soundURL[3] = getClass().getResource("/VuaHanVuaYeu.wav");
+		
 
 	}
 	

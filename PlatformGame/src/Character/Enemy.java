@@ -67,7 +67,7 @@ public class Enemy extends Entity {
 					if(checkInRange()) 
 				    	 turnTowardsPlayer();
 					checkGetStuck--;
-				    //x += enemySpeed;
+				    x += enemySpeed;
 				    return;		
 				}
 			}		
@@ -83,10 +83,10 @@ public class Enemy extends Entity {
 
 	private void changeDir() {
 		if(enemyDir == 1) {
-			//x += enemySpeed;
+			x += enemySpeed;
 			enemyDir = 0;
 		}else {
-			//x -= enemySpeed;
+			x -= enemySpeed;
 			enemyDir = 1;
 		}checkGetStuck++;
 	}
@@ -142,7 +142,7 @@ public class Enemy extends Entity {
 				x += 20;
 			
 			numOfHit++;
-			if(numOfHit > 100) {
+			if(numOfHit > 2) {
 			   active = false;
 			   Crab_Spawn.numCrabs--;
 			   numOfHit = 0;

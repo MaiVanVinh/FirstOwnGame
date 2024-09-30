@@ -26,17 +26,15 @@ public class MapManager {
 	 private int diff;
 	 private int leftBorder = (int) (0.3   * MainGame.GAME_WIDTH);
 	 private int rightBorder = (int) (0.7 * MainGame.GAME_WIDTH);
-	 private int lvlTilesWide;    //= Load.GetMapLevelData()[0].length;
-	 private int maxTilesOffset; //= lvlTilesWide - MainGame.TOTAL_TILES_IN_WIDTH;
-	 private int maxLvlOffsetX; //= maxTilesOffset * MainGame.TILES_SIZE;
+	 private int lvlTilesWide;    
+	 private int maxTilesOffset; 
+	 private int maxLvlOffsetX; 
 	 public float player_xPos;
 	 public static int[][] levelData_Player;
 	
 	public MapManager(MainGame game){
 		this.game = game;
 		get_Tile_Block();
-//		level = new Map(Load.GetMapLevelData());
-//		levelData_Player = Load.GetMapLevelData();
 		iniMapAndOffset();
 
 		InputStream is = getClass().getResourceAsStream("/bg3.png");

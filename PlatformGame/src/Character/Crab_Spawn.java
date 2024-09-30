@@ -18,7 +18,7 @@ public class Crab_Spawn {
 	private BufferedImage img;
 	private int i = 0;
 	private int frame;
-	public int Offset;
+	public  int Offset;
 
 	public static final int CRABBY_WIDTH_DEFAULT = 72;
 	public static final int CRABBY_HEIGHT_DEFAULT = 32;

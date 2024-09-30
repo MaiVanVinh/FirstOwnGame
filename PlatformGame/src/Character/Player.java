@@ -72,7 +72,7 @@ public class Player extends Entity {
 
 		if(attack) { 	
 			if(attIndex == 3)
-			   getSound(3);
+			   getSound(1);
 			updateAttackTick();
 		}	
 		
