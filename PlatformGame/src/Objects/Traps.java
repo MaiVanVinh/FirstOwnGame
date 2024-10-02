@@ -1,11 +1,16 @@
-package Character;
+package Objects;
 
 
+import Character.Player;
 
-public class Traps extends Entity {
+public class Traps {
+   
+	float x,y;
 
+	
 	public Traps(float x, float y) {
-		super(x, y, 48, 25);
+		this.x = x;
+		this.y = y;
 		
 	}
 
@@ -15,7 +20,7 @@ public class Traps extends Entity {
 		if(Math.abs(dy) > 100)
 			return;
 		if(dx < 15 && dx > -52)
-			Player.PlayerGetHitRight = true;
+			Player.PlayerGetHit = true;
 	}
 
 

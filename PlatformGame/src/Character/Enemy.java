@@ -6,7 +6,7 @@ import main.MainGame;
 
 public class Enemy extends Entity {
 	
-	public static int EnemyX_LeftPos;
+	public   static int EnemyX_LeftPos;
 	public   static int Offset;
 	private  int enemyDir = 1;
 	private  float enemySpeed = (float) 0.75;
@@ -119,10 +119,10 @@ public class Enemy extends Entity {
             if(dy > -20)
             	return false;
             	
-            if(dx > -70 && dx < -36 )
-            	Player.PlayerGetHitLeft = true;
-            else if(dx > -36 && dx < -14)
-            	Player.PlayerGetHitRight = true;
+            if(dx > -70 && dx < -14 )
+            	Player.PlayerGetHit = true;
+//            else if(dx > -36 && dx < -14)
+//            	Player.PlayerGetHitRight = true;
            
 	        if(Player.PlayerX_RightPos > EnemyX_LeftPos)
 			   return Math.abs(dx) < 87;

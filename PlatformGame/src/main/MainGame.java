@@ -9,11 +9,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Character.Crab_Spawn;
 import Character.Player;
-import Character.Trap_Spawn;
+
 import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
 import LoadMap.Load;
 import LoadMap.MapManager;
+import Objects.Cannon_Spawn;
+import Objects.Trap_Spawn;
 
 public class MainGame implements Runnable{
 	
@@ -23,6 +25,7 @@ public class MainGame implements Runnable{
 	Player player ;
 	Crab_Spawn crab;
 	Trap_Spawn trap;
+	Cannon_Spawn cannon;
 	MapManager map;
 	
 	
@@ -74,6 +77,7 @@ public class MainGame implements Runnable{
 		Load.mapControler();
 		map = new MapManager(this);
 		trap = new Trap_Spawn();
+		cannon = new Cannon_Spawn();
 		player = new Player(30,300, (int) (96*SCALE), (int) (84*SCALE) );
 		crab = new Crab_Spawn();
 		  
@@ -93,6 +97,9 @@ public class MainGame implements Runnable{
 		   
 		   trap.Offset =  map.xLvlOffset;
 		   trap.renderTraps(g);
+		   
+		   cannon.Offset =  map.xLvlOffset;
+		   cannon.renderGeneral(g,player);
 	    }
 
 	}
@@ -106,6 +113,7 @@ public class MainGame implements Runnable{
 	   player.frame1 = (SwitchAction.GetFramesAction(takeAction));
 	   crab.updateCrabState();
 	   player.updatePlayer();
+	   cannon.updateAttackTick();
        if(restart) {
     	   initializePlayer();
     	   restart = false;

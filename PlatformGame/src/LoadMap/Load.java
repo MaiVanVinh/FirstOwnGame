@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import Character.Crab;
-import Character.Traps;
+import Objects.Cannon;
+import Objects.Traps;
 import main.MainGame;
 
 
@@ -89,7 +90,7 @@ public class Load {
 				}
 			}		
 		}
-        System.out.println(trap.size());
+        
 		return trap;
 	}
 	
@@ -113,6 +114,24 @@ public class Load {
 		
 		return levelData;
 
+	}
+	
+	
+	public static ArrayList<Cannon> Getcannon(){
+		ArrayList<Cannon> cannon = new ArrayList<>();	
+		BufferedImage img = LoadImage(mapControler.get(index));
+
+		
+		for (int j = 0; j < img.getHeight(); j++) {
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == 5) {
+					cannon.add(new Cannon(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
+				}
+			}		
+		}
+		return cannon;
 	}
 	
 	

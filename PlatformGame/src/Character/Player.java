@@ -14,6 +14,7 @@ import KeyBoardInput.Sound;
 import KeyBoardInput.SwitchAction;
 import LoadMap.Load;
 import LoadMap.MapManager;
+import Objects.Cannon;
 import main.MainGame;
 
 public class Player extends Entity {
@@ -25,8 +26,8 @@ public class Player extends Entity {
 	public static int PlayerX_RightPos;
 	public static int PlayerX_LeftPos;
 	public static int PlayerY_UpPos;
-	public static boolean PlayerGetHitLeft = false;
-	public static boolean PlayerGetHitRight= false;
+	public static boolean PlayerGetHit = false;
+	public static boolean PlayerGetHitBall= false;
 	public static int Player_AttackRange;
 	
 
@@ -54,7 +55,7 @@ public class Player extends Entity {
     public static int ChangeVolume = -40;
     
     private Rectangle2D.Float attackRange;
-	private int healthWidth = (int) (246*MainGame.SCALE);
+	public  int healthWidth = (int) (246*MainGame.SCALE);
 
 
     
@@ -94,8 +95,8 @@ public class Player extends Entity {
 		if (jump) {
 			if(acJumpSound) getSound(0);  
 			acJumpSound = false;
-			jump(); 
-			
+			jump();
+
 		}
 	
 
@@ -147,11 +148,14 @@ public class Player extends Entity {
 	
 	private void checkAttackingToEnemy() {
 	  if(attack) {	
-		 if(attIndex == 3) 
-			 Enemy.checkGetHitFromPlayer = true; 
-		 else 
-			 Enemy.checkGetHitFromPlayer = false;
-			
+		  if(attIndex == 3){ 
+			  Enemy.checkGetHitFromPlayer = true; 
+			  Cannon.GetHit = true;
+		  }else { 
+			  Enemy.checkGetHitFromPlayer = false;
+			  Cannon.GetHit = false;
+		  }	
+		 
 	  }else 	
 		  Enemy.checkGetHitFromPlayer = false;
 
@@ -173,8 +177,8 @@ public class Player extends Entity {
            g.drawImage(Animation[state_ani][attIndex],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
 		else
 		   g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
-        PlayerGetHitLeft   = false;
-        PlayerGetHitRight  = false;
+		PlayerGetHit      = false;
+		PlayerGetHitBall  = false;
 
 	}
 	
@@ -185,13 +189,13 @@ public class Player extends Entity {
 		getPlayerPosition();
 		drawAttackRange(g);
 		drawHeathBar(g);
-		if(PlayerGetHitLeft) { 
+		if(PlayerGetHit) { 
 			y -= 2;
 			updateHealth();
-		}else if(PlayerGetHitRight) {
-			y -= 2;
-			updateHealth();
-		}
+		}else if(PlayerGetHitBall) 
+			updateHealth(); 
+			
+		
 
 		checkAttackingToEnemy();
 		
