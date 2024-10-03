@@ -63,16 +63,11 @@ public class Cannon_Spawn {
 		updateCannon();
 		for(Cannon c : list) {
 			if(c.getActive()) {
-				check++;
-			        if(c.getCheck()) {
-			        	if(attIndex == 4 && check > 100) {
-			        	    shoot(c);
-			        	    check = 0;
-			        	}    
-			        g.drawImage(Animation[0][attIndex], (int)(c.x  - Offset),(int) c.y, 60, 39, null);
-			    }else
-			        g.drawImage(Animation[0][0], (int)(c.x  - Offset),(int) c.y, 60, 39, null);
-			
+				    check++;
+			        if(c.getCheck()) 
+			            checkConditionCannon(c,g); 
+			        else
+			            g.drawImage(Animation[0][0], (int)(c.x  - Offset),(int) c.y, 60, 39, null);
 			}
 			
 			
@@ -96,16 +91,25 @@ public class Cannon_Spawn {
 		ballList.add(new Ball((int) c.x, (int) c.y));
 	}
 	
+	private void checkConditionCannon(Cannon c, Graphics g) {
+    	if(attIndex == 4 && check > 200) {
+    	    shoot(c);
+    	    check = 0;
+    	} 
+    	 g.drawImage(Animation[0][attIndex], (int)(c.x  - Offset),(int) c.y, 60, 39, null);
+	}
+	
+
 	
 	private void loadCannon() {
-		InputStream is = getClass().getResourceAsStream("/cannon_left.png");
+		InputStream is = getClass().getResourceAsStream("/cannon.png");
 		InputStream ball = getClass().getResourceAsStream("/ball.png");
 		try {
 			img = ImageIO.read(is);
 			imgBall = ImageIO.read(ball);
-			Animation = new BufferedImage[1][7];
+			Animation = new BufferedImage[2][7];
 			
-			for(int i = 0; i < 1; i++) {
+			for(int i = 0; i < 2; i++) {
 				for(int j = 0; j < Animation[i].length; j++) {
 					Animation[i][j] = img.getSubimage(j * 40, i * 26, 40, 26);
 				}

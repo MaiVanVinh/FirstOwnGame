@@ -1,5 +1,6 @@
 package LoadMap;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -31,6 +32,7 @@ public class MapManager {
 	 private int maxLvlOffsetX; 
 	 public float player_xPos;
 	 public static int[][] levelData_Player;
+	 public static boolean firstCheck = true;
 	
 	public MapManager(MainGame game){
 		this.game = game;
@@ -43,7 +45,6 @@ public class MapManager {
 	    	try {
 				imageBackGround = ImageIO.read(is);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -100,8 +101,12 @@ public class MapManager {
 	public void get_Map_Level(Graphics g) {
 		checkMoveLeftAndRight();
 		
-
-		g.drawImage(scaledImage, 0, 0, 1248, 672, null);
+		
+		if(firstCheck) {
+		  g.setColor(Color.DARK_GRAY);
+		  g.fillRect(0 , 0 , 1248, 672);
+		}else  
+		  g.drawImage(scaledImage, 0, 0, 1248, 672, null);
 		
 		for (int j = 0; j < MainGame.TOTAL_TILES_IN_HEIGHT; j++)
 			for (int i = 0; i < levelData_Player[0].length; i++) {

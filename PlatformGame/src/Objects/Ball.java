@@ -21,17 +21,16 @@ public class Ball {
 	
 	
 	public void update(int Offset, Player player) {
-		x -=1;
-		hitbox.x -=1;
-
+		x -=1.5;
+		hitbox.x -=1.5;
 
 		int dx = (int) ( (x-Offset) - Player.PlayerX_RightPos);
 		int dy = (int) (Player.PlayerY_UpPos - (y + 10));
 		
 		if((Math.abs(dx) <= 23) && (-27 > dy && dy > -95))
-           player.updateHealth();
+           player.updateHealth(3);
 
-		if(x < 10) 
+		if((x < 10) ) 
 		    active = false;
 		else
 			active = true;

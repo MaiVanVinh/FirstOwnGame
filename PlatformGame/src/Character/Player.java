@@ -15,6 +15,7 @@ import KeyBoardInput.SwitchAction;
 import LoadMap.Load;
 import LoadMap.MapManager;
 import Objects.Cannon;
+import main.Game_JPanel;
 import main.MainGame;
 
 public class Player extends Entity {
@@ -27,7 +28,6 @@ public class Player extends Entity {
 	public static int PlayerX_LeftPos;
 	public static int PlayerY_UpPos;
 	public static boolean PlayerGetHit = false;
-	public static boolean PlayerGetHitBall= false;
 	public static int Player_AttackRange;
 	
 
@@ -178,7 +178,6 @@ public class Player extends Entity {
 		else
 		   g.drawImage(Animation[state_ani][f],(int) (x) - updateBigMap, (int) (y), (int)width, (int)height, null);
 		PlayerGetHit      = false;
-		PlayerGetHitBall  = false;
 
 	}
 	
@@ -191,9 +190,8 @@ public class Player extends Entity {
 		drawHeathBar(g);
 		if(PlayerGetHit) { 
 			y -= 2;
-			updateHealth();
-		}else if(PlayerGetHitBall) 
-			updateHealth(); 
+			updateHealth(1);
+		}
 			
 		
 
@@ -209,10 +207,12 @@ public class Player extends Entity {
 	}
 	
 
-	public void updateHealth() {
-		healthWidth -= 0.25;
-		if(healthWidth < 1)
-			System.out.println("Die");			
+	public void updateHealth(int i) {
+		healthWidth -= (0.25)*i;
+		if(healthWidth < 1) {
+			Game_JPanel.selectionMenu = 1;
+			MainGame.die = true;
+		}	
 	}
 	
 	

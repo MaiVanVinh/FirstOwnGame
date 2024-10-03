@@ -57,13 +57,14 @@ public class KeyBoardAction implements KeyListener{
 	    			break;
 	    			
 	     		case KeyEvent.VK_P:
+	     			if(Game_JPanel.selectionMenu == 0) {
+	     			    if(!MainGame.pause)
+	     				   MainGame.pause = true;
+	     			    else
+	     				   MainGame.pause = false;
 	     			
-	     			if(!MainGame.pause)
-	     				MainGame.pause = true;
-	     			else
-	     				MainGame.pause = false;
-	     			
-	     			jpanel.pauseMenu();
+	     			    jpanel.pauseMenu();
+	     			}    
 	    			break;
 
 	 

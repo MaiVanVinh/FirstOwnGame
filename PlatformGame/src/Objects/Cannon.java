@@ -11,6 +11,7 @@ public class Cannon {
 	public Cannon(float x, float y) {
 		this.x = x;
 		this.y = y + 10;
+
 	}
 	
 	public void update(int Offset) {
@@ -18,9 +19,14 @@ public class Cannon {
 		int dy = (int) (Player.PlayerY_UpPos - (y + 10));
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         
+
+        
         if(distance <= 500)
         	checkInrange = true;
         else
+        	checkInrange = false;
+        
+        if(Player.PlayerX_RightPos > (x-Offset))
         	checkInrange = false;
         
         if(GetHit)

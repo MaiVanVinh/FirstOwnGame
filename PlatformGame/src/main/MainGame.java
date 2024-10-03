@@ -53,8 +53,10 @@ public class MainGame implements Runnable{
 	int i = 0;
 
 	
-	public static boolean pause = false;
+	public static boolean pause = true;
 	public static boolean restart = false;
+	public static boolean die = false;
+	
 	
 	public MainGame() {
 		
@@ -62,7 +64,7 @@ public class MainGame implements Runnable{
         getSound(songIndex);
         
 		initializePlayer();
-		
+
 		panel_game = new Game_JPanel(this);
 		window_game = new Game_JFrame_Window(panel_game);
 		GameRepaintThread();
@@ -114,11 +116,22 @@ public class MainGame implements Runnable{
 	   crab.updateCrabState();
 	   player.updatePlayer();
 	   cannon.updateAttackTick();
-       if(restart) {
-    	   initializePlayer();
-    	   restart = false;
-       }
 	   
+
+       if(restart) {
+    	   Game_JPanel.selectionMenu = 0;
+    	   panel_game.dieMenu();
+    	   restart = false;
+    	   die = false;
+    	   pause = false;
+    	   initializePlayer();
+       }
+       
+	   if(die) { 
+		 pause = true;
+		 panel_game.dieMenu();
+	   }
+
    }
    
 	
@@ -143,8 +156,7 @@ public class MainGame implements Runnable{
 		long lastCheck = System.currentTimeMillis();
 		
 		while(true) {
-			
-			
+
 			now = System.nanoTime();
 			
 			if(now - lastTime >= nanoFPS) {
@@ -180,6 +192,7 @@ public class MainGame implements Runnable{
 			   sound.reset();
 			resetSong = false;
 			
+			
             if(nextSong) {
             	if(songIndex == 3)
             		songIndex = 2;
@@ -188,11 +201,15 @@ public class MainGame implements Runnable{
             	sound.nextSong(songIndex, ChangeVolume);
             }nextSong = false;
             
-			if(ChangeVolume == -60) 
-			   sound.fc.setValue(-75);
-			else 
-			   sound.fc.setValue(ChangeVolume);
-
+            
+               
+			   if(ChangeVolume == -60 ) 
+			      sound.fc.setValue(-75);
+			   else 
+			      sound.fc.setValue(ChangeVolume);
+           
+            
+            
 		}
 		
 	}

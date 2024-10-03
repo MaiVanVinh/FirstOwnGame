@@ -45,7 +45,6 @@ public class PauseMenu extends JPanel {
 			e.printStackTrace();
 		}
 		
-		//setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(500, 500));
 		setBackground(Color.DARK_GRAY);
 		setLayout(null);

@@ -126,9 +126,13 @@ public class Load {
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getBlue();
-				if (value == 5) {
+
+				if (value == 5) 
 					cannon.add(new Cannon(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
-				}
+				if (value == 6) 
+					cannon.add(new Cannon(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
+					
+				
 			}		
 		}
 		return cannon;

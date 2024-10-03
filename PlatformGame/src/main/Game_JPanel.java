@@ -3,6 +3,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+
+
 import javax.swing.JPanel;
 
 
@@ -13,14 +15,30 @@ public class Game_JPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
     private MainGame game;
     private PauseMenu pauseMenu;
+    private DieMenu dieMenu;
+    private PlayingMenu play;
+    public static int selectionMenu = 2;
     
     
 	public Game_JPanel(MainGame game) {
 		this.game = game;	
+		
 		pauseMenu = new PauseMenu();
 		pauseMenu.setVisible(false);
+		
+		dieMenu = new DieMenu();
+		dieMenu.setVisible(false);
+		
+		play = new PlayingMenu();
+		play.setVisible(true);
+		
+
+		
         add(pauseMenu);
+        add(dieMenu);
+        add(play);
 		setPanelSize();
+		
      }
 	
 
@@ -44,10 +62,17 @@ public class Game_JPanel extends JPanel{
    }
     
     public void pauseMenu() {
-    	if(!pauseMenu.isVisible())
+    	if(!pauseMenu.isVisible() && selectionMenu == 0)
     		pauseMenu.setVisible(true);
-    	else
+    	else if(pauseMenu.isVisible() && selectionMenu == 0)
     		pauseMenu.setVisible(false);
+    }
+    
+    public void dieMenu() {
+    	if(selectionMenu == 1)
+    		dieMenu.setVisible(true);
+    	else
+    		dieMenu.setVisible(false);
     }
 
 
