@@ -209,9 +209,10 @@ public class Player extends Entity {
 
 	public void updateHealth(int i) {
 		healthWidth -= (0.25)*i;
-		if(healthWidth < 1) {
+		if(healthWidth == 1) {
 			Game_JPanel.selectionMenu = 1;
 			MainGame.die = true;
+			healthWidth = 0;
 		}	
 	}
 	

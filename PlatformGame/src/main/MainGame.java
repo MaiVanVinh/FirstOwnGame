@@ -56,7 +56,7 @@ public class MainGame implements Runnable{
 	public static boolean pause = true;
 	public static boolean restart = false;
 	public static boolean die = false;
-	
+	private int check = 0;
 	
 	public MainGame() {
 		
@@ -78,19 +78,20 @@ public class MainGame implements Runnable{
 	public void initializePlayer() {
 		Load.mapControler();
 		map = new MapManager(this);
+		if(check == 1) {
 		trap = new Trap_Spawn();
 		cannon = new Cannon_Spawn();
 		player = new Player(30,300, (int) (96*SCALE), (int) (84*SCALE) );
 		crab = new Crab_Spawn();
-		  
+		}  
 	}
 	
 	public void render(Graphics g) {
-		
-		map.player_xPos = player.xPos;
+		if(check == 1)
+		   map.player_xPos = player.xPos;
 		map.get_Map_Level(g);
 	
-	    if(!pause) {
+	    if(!pause && check == 1) {
 		   player.updateBigMap = map.xLvlOffset;
 		   player.renderPlayer(g);
 		
@@ -111,12 +112,13 @@ public class MainGame implements Runnable{
    }
 
    public void update() {
+	  if(check == 1) {
 	   takeAction = SwitchAction.action;
 	   player.frame1 = (SwitchAction.GetFramesAction(takeAction));
 	   crab.updateCrabState();
 	   player.updatePlayer();
 	   cannon.updateAttackTick();
-	   
+	  } 
 
        if(restart) {
     	   Game_JPanel.selectionMenu = 0;
@@ -176,9 +178,15 @@ public class MainGame implements Runnable{
 				
 		
 			
-			if (System.currentTimeMillis() - lastCheck >= 5000) {
+			if (System.currentTimeMillis() - lastCheck >= 5000 && check == 0) {
 				if(!sound.checkActive()) getSound(songIndex);
 				lastCheck = System.currentTimeMillis();
+				
+				trap = new Trap_Spawn();
+				cannon = new Cannon_Spawn();
+				player = new Player(30,300, (int) (96*SCALE), (int) (84*SCALE) );
+				crab = new Crab_Spawn();
+				check++;
 			}
 			
 			nowframe = System.currentTimeMillis();
