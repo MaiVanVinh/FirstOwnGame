@@ -35,7 +35,6 @@ public class Sound {
 	}
 	
 	public void reset() {
-		clip.stop();
 		clip.setFramePosition(0);
 	}
 	

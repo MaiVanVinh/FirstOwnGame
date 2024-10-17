@@ -5,7 +5,7 @@ import main.MainGame;
 public class Crab extends Enemy {
 	
 	public static final int CRABBY_WIDTH_DEFAULT = 72;
-	public static final int CRABBY_HEIGHT_DEFAULT = 32;
+	public static final int CRABBY_HEIGHT_DEFAULT = 35;
 	public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * MainGame.SCALE);
 	public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * MainGame.SCALE);
 	public int firstCheck = 0;

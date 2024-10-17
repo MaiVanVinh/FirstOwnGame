@@ -66,6 +66,8 @@ public class Enemy extends Entity {
 				if(CheckHitBox.CheckEgde(enemySpeed,x + 30  + enemySpeed ,y , width, height ,levelData)) {
 					if(checkInRange()) 
 				    	 turnTowardsPlayer();
+					else
+						 changeDirAni();
 					checkGetStuck--;
 				    x += enemySpeed;
 				    return;		
@@ -83,9 +85,11 @@ public class Enemy extends Entity {
 
 	private void changeDir() {
 		if(enemyDir == 1) {
+			changeDirAni();
 			x += enemySpeed;
 			enemyDir = 0;
 		}else {
+			changeDirAni();
 			x -= enemySpeed;
 			enemyDir = 1;
 		}checkGetStuck++;
@@ -121,13 +125,17 @@ public class Enemy extends Entity {
             	
             if(dx > -70 && dx < -14 )
             	Player.PlayerGetHit = true;
-//            else if(dx > -36 && dx < -14)
-//            	Player.PlayerGetHitRight = true;
-           
-	        if(Player.PlayerX_RightPos > EnemyX_LeftPos)
+
+            
+	        if(Player.PlayerX_RightPos > EnemyX_LeftPos) {
+	        	enemyState = 1;
 			   return Math.abs(dx) < 87;
-	        else
+	        }else {
+	        	enemyState = 0;
 	           return Math.abs(dx) < 200;
+	        }
+	        
+	        
 	    }
 	
 	
@@ -151,6 +159,12 @@ public class Enemy extends Entity {
 		
 	}
 
+	private void changeDirAni() {
+		if(enemySpeed < 0)
+			enemyState = 0;
+		else
+			enemyState = 1;
+	}
 	
 	public boolean isActive() {
 		return active;

@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import Character.Crab;
 import Objects.Cannon;
+import Objects.Door;
 import Objects.Traps;
 import main.MainGame;
 
@@ -18,13 +19,13 @@ public class Load {
 
 	
 	public static final String MAP_LEVEL_ONE    = "Map1.png";
-	public static final String MAP_LEVEL_TWO    = "getstuck.png";
+	public static final String MAP_LEVEL_TWO    = "Map2.png";
 	public static final String MAP_LEVEL_TEST   = "MapTest.png";
 
 	public static final String TILE_2D = "2D Tiles.png";
 	public static final String HEALTH_BAR = "health_bar2.png";
 	public static ArrayList<String> mapControler;
-	public static int index = 0;
+	public static int index = 1;
 	
 	public static BufferedImage LoadImage(String name) {
 		BufferedImage image = null;
@@ -96,7 +97,7 @@ public class Load {
 	
 	public static int[][] GetMapLevelData() {
 		
-		BufferedImage img = LoadImage(mapControler.get(0));
+		BufferedImage img = LoadImage(mapControler.get(index));
 		int[][] levelData = new int[img.getHeight()][img.getWidth()];
 
         
@@ -107,6 +108,12 @@ public class Load {
 				
 				if (value >= 48)
                     value = 0;
+				
+				if(value == 23) {
+					Door.x = i*MainGame.TILES_SIZE;
+				    Door.y = j*MainGame.TILES_SIZE;
+				}    
+				
 				levelData[j][i] = value;
 			}
 		
@@ -129,8 +136,10 @@ public class Load {
 
 				if (value == 5) 
 					cannon.add(new Cannon(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
-				if (value == 6) 
-					cannon.add(new Cannon(i*MainGame.TILES_SIZE, j*MainGame.TILES_SIZE));
+				if (value == 6) { 
+					Door.KeyX = i*MainGame.TILES_SIZE;
+				    Door.KeyY = j*MainGame.TILES_SIZE;
+				}    
 					
 				
 			}		

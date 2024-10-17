@@ -15,6 +15,7 @@ import KeyBoardInput.SwitchAction;
 import LoadMap.Load;
 import LoadMap.MapManager;
 import Objects.Cannon_Spawn;
+import Objects.Door;
 import Objects.Trap_Spawn;
 
 public class MainGame implements Runnable{
@@ -104,6 +105,9 @@ public class MainGame implements Runnable{
 		   cannon.Offset =  map.xLvlOffset;
 		   cannon.renderGeneral(g,player);
 	    }
+	    
+	  Door.checkRange(map.xLvlOffset);
+	  Door.checkKeyRange(map.xLvlOffset);
 
 	}
 	
@@ -134,6 +138,7 @@ public class MainGame implements Runnable{
 		 panel_game.dieMenu();
 	   }
 
+	   
    }
    
 	
@@ -166,11 +171,12 @@ public class MainGame implements Runnable{
 				lastTime = now;
 			}
 
-			if(nextMap) { 
+			if(nextMap && Door.getKey) { 
 				if(Load.index == 0)
 				   Load.index = 1;
 				else
 				   Load.index = 0;
+				Door.reset();
 				initializePlayer();
 			}	
 			nextMap = false;	
@@ -178,7 +184,7 @@ public class MainGame implements Runnable{
 				
 		
 			
-			if (System.currentTimeMillis() - lastCheck >= 5000 && check == 0) {
+			if (System.currentTimeMillis() - lastCheck >= 1000 && check == 0) {
 				if(!sound.checkActive()) getSound(songIndex);
 				lastCheck = System.currentTimeMillis();
 				

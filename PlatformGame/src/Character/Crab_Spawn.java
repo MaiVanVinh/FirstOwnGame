@@ -19,9 +19,10 @@ public class Crab_Spawn {
 	private int i = 0;
 	private int frame;
 	public  int Offset;
-
+	
+    public static boolean clearCrab = false;
 	public static final int CRABBY_WIDTH_DEFAULT = 72;
-	public static final int CRABBY_HEIGHT_DEFAULT = 32;
+	public static final int CRABBY_HEIGHT_DEFAULT = 37;
 	public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * MainGame.SCALE);
 	public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * MainGame.SCALE);
 	
@@ -42,7 +43,7 @@ public class Crab_Spawn {
 	}
 	
 	public void updateCrabState(){
-		if(i > 5) i = 0;
+		if(i > 4) i = 0;
 		frame = i++;
 	}
     
@@ -66,26 +67,27 @@ public class Crab_Spawn {
 
 			}else { 
 				if(crab.getDeadAniTick() < 200)
-			      g.drawImage(Animation[4][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
+			      g.drawImage(Animation[2][frame], (int)crab.x - Offset,(int)crab.y , CRABBY_WIDTH, CRABBY_HEIGHT, null);
 				crab.deadAnimationTick++; 
 			}
 
 		} if(numCrabs == 0)
-			   MainGame.nextMap = true;
+			   clearCrab = true;
+//			   MainGame.nextMap = true;
 		
 	
 	}
 
 	private void loadEnemy() {
-		InputStream is = getClass().getResourceAsStream("/Enemy1.png");
+		InputStream is = getClass().getResourceAsStream("/e.png");
 
 		try {
 			img = ImageIO.read(is);
-			Animation = new BufferedImage[5][9];
+			Animation = new BufferedImage[3][5];
 			
-			for(int i = 0; i < 5; i++) {
+			for(int i = 0; i < 3; i++) {
 				for(int j = 0; j < Animation[i].length; j++) {
-					Animation[i][j] = img.getSubimage(j * 72, i * 32, 72, 32);
+					Animation[i][j] = img.getSubimage(j * 55, i * 37, 55, 37);
 				}
 			}
 		} catch (IOException e) {
