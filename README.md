@@ -22,11 +22,11 @@ A simple Mario-style 2D platformer game built in **Java** using **Object-Oriente
 ├── res/
 ├── sound/
 ├── src/
-│ ├── game/ # Game loop, window, main class
-│ ├── entities/ # Player, enemies, items
-│ ├── levels/ # Level design and management
-│ ├── utils/ # Helpers like collision detection, asset loading
-│ └── assets/ # Images, sounds
+│ ├── Character/ # Player, enemies
+│ ├── KeyBoardInput/ # Handle keyboard inputs
+│ ├── LoadMap/ # Load maps and process collisions
+│ ├── main/ # Game loop, window, main class
+│ └── Objects/ Process the objects in the game
 
 
 ## 🚀 How to Run
